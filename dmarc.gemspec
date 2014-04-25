@@ -1,6 +1,11 @@
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'dmarc/version'
+
 Gem::Specification.new do |gem|
   gem.name          = "dmarc"
-  gem.version       = "0.1.0"
+  gem.version       = DMARC::VERSION
   gem.license       = 'MIT'
   gem.authors       = ["Davis Gallinghouse"]
   gem.email         = ["davis@trailofbits.com"]
@@ -14,4 +19,3 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'parslet', '~> 1.5'
 end
-
