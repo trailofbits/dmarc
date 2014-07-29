@@ -49,4 +49,32 @@ describe Record do
       expect(rec.sp).to eq('none')
     end
   end
+
+  describe '.from_txt' do
+    context 'with a valid record' do
+      let(:dmarc_record) { double(:record) }
+      let(:dmarc_parser) { double(:parser) }
+      it 'parses the record' do
+        expect(DMARC::Parser).to receive(:new).and_return dmarc_parser
+        expect(dmarc_parser).to receive(:parse).with dmarc_record
+        allow(DMARC::Record).to receive(:new)
+        described_class.from_txt(dmarc_record)
+      end
+
+      it 'returns a record' do
+        rec = described_class.from_txt('v=DMARC1; p=quarantine')
+        expect(rec).to be_a DMARC::Record
+        expect(rec.p).to eq 'quarantine'
+      end
+    end
+
+    context 'with an invalid record' do
+      it 'raises an InvalidRecord error' do
+        expect { described_class.from_txt('v=DMARC1; foo=bar') }.to raise_error do |error|
+          expect(error).to be_a DMARC::InvalidRecord
+          expect(error.ascii_tree).to_not be_nil
+        end
+      end
+    end
+  end
 end
