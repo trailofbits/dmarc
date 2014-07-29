@@ -159,6 +159,27 @@ describe Parser do
     end
   end
 
+  describe '#dmarc_fo' do
+    let(:fo) { described_class.new.dmarc_fo }
+
+    context 'one value' do
+      %w[0 1 d s].each do |value|
+        it "parses #{value}" do
+          expect(fo.parse("fo=#{value}")).to eq(fo: value)
+        end
+      end
+    end
+
+    it 'parses many values' do
+      expect(fo.parse('fo=0:1:d:s')).to eq([
+        {fo: '0'},
+        {fo: '1'},
+        {fo: 'd'},
+        {fo: 's'}
+      ])
+    end
+  end
+
   describe '#dmarc_rfmt' do
     subject { described_class.new.dmarc_rfmt }
 
