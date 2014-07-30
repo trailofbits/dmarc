@@ -1,6 +1,7 @@
+require 'spec_helper'
 require 'dmarc/parser'
 
-describe DMARC::Parser do
+describe Parser do
   describe '#dmarc_uri' do
     subject { described_class.new.dmarc_uri }
 

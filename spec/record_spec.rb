@@ -1,6 +1,7 @@
+require 'spec_helper'
 require 'dmarc/record'
 
-describe DMARC::Record do
+describe Record do
   context 'by default' do
     it 'has a relaxed DKIM alignment' do
       expect(subject.adkim).to eq('r')
