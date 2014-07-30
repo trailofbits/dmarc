@@ -79,18 +79,14 @@ module DMARC
 
     rule('dmarc_aspf') do
       str('aspf') >> wsp.repeat >> str('=') >> wsp.repeat >> (
-        str('r') |
-        str('s')
+        match['rs']
       ).as(:aspf)
     end
 
     rule('dmarc_uri') do
       uri.as(:uri) >> (
         str('!') >> digit.repeat(1).as(:size) >> (
-          str('k') |
-          str('m') |
-          str('g') |
-          str('t')
+          match['kmgt']
         ).as(:unit).maybe
       ).maybe
     end
