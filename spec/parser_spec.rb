@@ -42,6 +42,16 @@ describe Parser do
       ])
     end
 
+    it 'parses version, policy, and rua' do
+      record = 'v=DMARC1;p=quarantine;rua=mailto:foo@example.com,mailto:bar@example.com'
+      expect(subject.parse record).to eq([
+        {v: 'DMARC1'},
+        {p: 'quarantine'},
+        {rua: 'mailto:foo@example.com'},
+        {rua: 'mailto:bar@example.com'}
+      ])
+    end
+
     it 'ignores spacing' do
       record1 = 'v=DMARC1;p=none;sp=reject'
       record2 = 'v = DMARC1 ; p = none ; sp = reject'
