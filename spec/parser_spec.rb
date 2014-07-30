@@ -228,4 +228,3 @@ describe Parser do
     end
   end
 end
-

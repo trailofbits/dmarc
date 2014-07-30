@@ -50,4 +50,3 @@ describe Record do
     end
   end
 end
-
