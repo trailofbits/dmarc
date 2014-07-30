@@ -5,18 +5,17 @@ describe Parser do
   describe '#dmarc_uri' do
     subject { described_class.new.dmarc_uri }
 
+    let(:uri) { 'mailto:user@example.org' }
+
     it 'parses mailto URIs' do
-      uri = 'mailto:user@example.org'
       expect(subject.parse(uri)).to eq(uri: uri)
     end
 
     it 'parses mailto URIs with size' do
-      uri = 'mailto:user@example.org'
       expect(subject.parse(uri + '!20')).to eq(uri: uri, size: '20')
     end
 
     it 'parses mailto URIs with size and unit' do
-      uri = 'mailto:user@example.org'
       expect(subject.parse(uri + '!20k')).to eq(uri: uri, size: '20', unit: 'k')
     end
   end
