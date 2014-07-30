@@ -1,5 +1,4 @@
 require 'dmarc/parser'
-require 'pp'
 
 describe DMARC::Parser do
   describe '#dmarc_uri' do
