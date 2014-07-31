@@ -61,18 +61,9 @@ module DMARC
     end
 
     rule('dmarc_fo') do
-      str('fo') >> wsp.repeat >> str('=') >> wsp.repeat >> (
-        str('0') |
-        str('1') |
-        str('d') |
-        str('s')
-      ).as(:fo) >> (
-        wsp.repeat >> str(':') >> wsp.repeat >> (
-          str('0') |
-          str('1') |
-          str('d') |
-          str('s')
-        ).as(:fo)
+      str('fo') >> wsp.repeat >> str('=') >> wsp.repeat >>
+      match['01ds'].as(:fo) >> (
+        wsp.repeat >> str(':') >> wsp.repeat >> match['01ds'].as(:fo)
       ).repeat
     end
 
