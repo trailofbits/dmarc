@@ -1,6 +1,8 @@
 dmarc
 =====
 
+[![Code Climate](https://codeclimate.com/github/trailofbits/dmarc.png)](https://codeclimate.com/github/trailofbits/dmarc)
+
 [DMARC] is a technical specification intended to solve a couple of long-standing
 email authentication problems. DMARC policies are described in DMARC "records," 
 which are stored as DNS TXT records on a subdomain. This library contains a
