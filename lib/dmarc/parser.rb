@@ -14,6 +14,7 @@ module DMARC
         dmarc_adkim |
         dmarc_aspf |
         dmarc_ainterval |
+        dmarc_fo |
         dmarc_rfmt |
         dmarc_percent
       )).repeat >>
@@ -57,6 +58,13 @@ module DMARC
     rule('dmarc_furi') do
       str('ruf') >> wsp.repeat >> str('=') >> wsp.repeat >>
       dmarc_uri.as(:ruf) >> (wsp.repeat >> str(',') >> wsp.repeat >> dmarc_uri.as(:ruf)).repeat
+    end
+
+    rule('dmarc_fo') do
+      str('fo') >> wsp.repeat >> str('=') >> wsp.repeat >>
+      match['01ds'].as(:fo) >> (
+        wsp.repeat >> str(':') >> wsp.repeat >> match['01ds'].as(:fo)
+      ).repeat
     end
 
     rule('dmarc_rfmt') do
