@@ -9,6 +9,6 @@ group :test do
 end
 
 group :documentation do
-  gem 'redcarpet'
+  gem 'kramdown'
   gem 'yard', '~> 0.8'
 end
