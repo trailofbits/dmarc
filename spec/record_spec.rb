@@ -30,11 +30,11 @@ describe Record do
 
   describe '#initialize' do
     let(:parse_tree) do
-      [
-        {v: 'DMARC1'},
-        {p: 'none'},
-        {adkim: 'r'},
-      ]
+      {
+        v: 'DMARC1',
+        p: 'none',
+        adkim: 'r'
+      }
     end
 
     it 'assigns the fields to its properties' do

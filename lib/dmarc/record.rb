@@ -19,8 +19,8 @@ module DMARC
       ri:    86400,
     }
 
-    def initialize(tags=[])
-      tags.reduce(DEFAULTS, &:merge).each_pair do |k,v|
+    def initialize(attributes={})
+      attributes.merge(DEFAULTS).each_pair do |k,v|
         case k
         when :pct, :ri
           self[k] = v.to_i
