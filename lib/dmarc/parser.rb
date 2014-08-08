@@ -22,14 +22,14 @@ module DMARC
     end
 
     rule(:dmarc_version) do
-      str('v') >> wsp.repeat >>
-      str('=') >> wsp.repeat >>
+      str('v') >> wsp? >>
+      str('=') >> wsp? >>
       str('DMARC1').as(:v)
     end
-    rule(:dmarc_sep) { wsp.repeat >> str(';') >> wsp.repeat }
+    rule(:dmarc_sep) { wsp? >> str(';') >> wsp? }
 
     rule(:dmarc_request) do
-      str('p') >> wsp.repeat >> str('=') >> wsp.repeat >> (
+      str('p') >> wsp? >> str('=') >> wsp? >> (
         str('none') |
         str('quarantine') |
         str('reject')
@@ -37,7 +37,7 @@ module DMARC
     end
 
     rule(:dmarc_srequest) do
-      str('sp') >> wsp.repeat >> str('=') >> wsp.repeat >> (
+      str('sp') >> wsp? >> str('=') >> wsp? >> (
         str('none') |
         str('quarantine') |
         str('reject')
@@ -45,48 +45,48 @@ module DMARC
     end
 
     rule(:dmarc_auri) do
-      str('rua') >> wsp.repeat >> str('=') >> wsp.repeat >>
+      str('rua') >> wsp? >> str('=') >> wsp? >>
       dmarc_uri.as(:rua) >> (
-        wsp.repeat >> str(',') >> wsp.repeat >> dmarc_uri.as(:rua)
+        wsp? >> str(',') >> wsp? >> dmarc_uri.as(:rua)
       ).repeat
     end
 
     rule(:dmarc_ainterval) do
-      str('ri') >> wsp.repeat >> str('=') >> wsp.repeat >> digit.repeat(1).as(:ri)
+      str('ri') >> wsp? >> str('=') >> wsp? >> digit.repeat(1).as(:ri)
     end
 
     rule(:dmarc_furi) do
-      str('ruf') >> wsp.repeat >> str('=') >> wsp.repeat >>
-      dmarc_uri.as(:ruf) >> (wsp.repeat >> str(',') >> wsp.repeat >> dmarc_uri.as(:ruf)).repeat
+      str('ruf') >> wsp? >> str('=') >> wsp? >>
+      dmarc_uri.as(:ruf) >> (wsp? >> str(',') >> wsp? >> dmarc_uri.as(:ruf)).repeat
     end
 
     rule(:dmarc_fo) do
-      str('fo') >> wsp.repeat >> str('=') >> wsp.repeat >>
+      str('fo') >> wsp? >> str('=') >> wsp? >>
       match['01ds'].as(:fo) >> (
-        wsp.repeat >> str(':') >> wsp.repeat >> match['01ds'].as(:fo)
+        wsp? >> str(':') >> wsp? >> match['01ds'].as(:fo)
       ).repeat
     end
 
     rule(:dmarc_rfmt) do
-      str('rf') >> wsp.repeat >> str('=') >> wsp.repeat >> (
+      str('rf') >> wsp? >> str('=') >> wsp? >> (
         str('afrf') |
         str('iodef')
       ).as(:rf)
     end
 
     rule(:dmarc_percent) do
-      str('pct') >> wsp.repeat >> str('=') >> wsp.repeat >> digit.repeat(1, 3).as(:pct)
+      str('pct') >> wsp? >> str('=') >> wsp? >> digit.repeat(1, 3).as(:pct)
     end
 
     rule(:dmarc_adkim) do
-      str('adkim') >> wsp.repeat >> str('=') >> wsp.repeat >> (
+      str('adkim') >> wsp? >> str('=') >> wsp? >> (
         str('r') |
         str('s')
       ).as(:adkim)
     end
 
     rule(:dmarc_aspf) do
-      str('aspf') >> wsp.repeat >> str('=') >> wsp.repeat >> (
+      str('aspf') >> wsp? >> str('=') >> wsp? >> (
         match['rs']
       ).as(:aspf)
     end
@@ -176,6 +176,7 @@ module DMARC
     rule(:alpha) { match('[a-zA-Z]') }
     rule(:digit) { match('[0-9]') }
     rule(:wsp) { str(' ') | str("\t") }
+    rule(:wsp?) { wsp.repeat }
 
   end
 end
