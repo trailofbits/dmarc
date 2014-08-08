@@ -5,19 +5,17 @@ module DMARC
 
     root(:dmarc_record)
     rule(:dmarc_record) do
-      dmarc_version >>
-      (dmarc_sep >> (
-        dmarc_request |
-        dmarc_srequest |
-        dmarc_auri |
-        dmarc_furi |
-        dmarc_adkim |
-        dmarc_aspf |
-        dmarc_ainterval |
-        dmarc_fo |
-        dmarc_rfmt |
-        dmarc_percent
-      )).repeat >>
+      dmarc_version >> dmarc_sep >>
+      dmarc_request.maybe >>
+      (dmarc_sep >> dmarc_srequest).maybe >>
+      (dmarc_sep >> dmarc_auri).maybe >>
+      (dmarc_sep >> dmarc_furi).maybe >>
+      (dmarc_sep >> dmarc_adkim).maybe >>
+      (dmarc_sep >> dmarc_aspf).maybe >>
+      (dmarc_sep >> dmarc_ainterval).maybe >>
+      (dmarc_sep >> dmarc_fo).maybe >>
+      (dmarc_sep >> dmarc_rfmt).maybe >>
+      (dmarc_sep >> dmarc_percent).maybe >>
       dmarc_sep.maybe
     end
 
@@ -46,9 +44,7 @@ module DMARC
 
     rule(:dmarc_auri) do
       str('rua') >> wsp? >> str('=') >> wsp? >>
-      dmarc_uri.as(:rua) >> (
-        wsp? >> str(',') >> wsp? >> dmarc_uri.as(:rua)
-      ).repeat
+      (dmarc_uri >> (wsp? >> str(',') >> wsp? >> dmarc_uri).repeat).as(:rua)
     end
 
     rule(:dmarc_ainterval) do
