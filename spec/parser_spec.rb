@@ -134,6 +134,16 @@ describe Parser do
         ]
       )
     end
+
+    it 'parses maximum report size' do
+      expect(subject.parse('rua = mailto:user1@example.com!20m')).to eq(
+        rua: {
+          uri: 'mailto:user1@example.com',
+          size: '20',
+          unit: 'm'
+        }
+      )
+    end
   end
 
   describe '#dmarc_ainterval' do
@@ -166,10 +176,22 @@ describe Parser do
     it 'parses many URIs' do
       expect(
         subject.parse('ruf = mailto:user1@example.org, mailto:user2@example.org')
-      ).to eq([
-        {ruf: {uri: 'mailto:user1@example.org'}},
-        {ruf: {uri: 'mailto:user2@example.org'}},
-      ])
+      ).to eq(
+        ruf: [
+          {uri: 'mailto:user1@example.org'},
+          {uri: 'mailto:user2@example.org'}
+        ]
+      )
+    end
+
+    it 'parses maximum report size' do
+      expect(subject.parse('ruf = mailto:user1@example.com!20m')).to eq(
+        ruf: {
+          uri: 'mailto:user1@example.com',
+          size: '20',
+          unit: 'm'
+        }
+      )
     end
   end
 
