@@ -11,10 +11,8 @@ parser for DMARC records.
 Example
 -------
 
-```ruby
-require 'dmarc/record'
-record = DMARC::Record.from_txt(txt) # txt is a DNS TXT record containing the DMARC policy
-```
+    require 'dmarc/record'
+    record = DMARC::Record.from_txt(txt) # txt is a DNS TXT record containing the DMARC policy
 
 Requirements
 ------------

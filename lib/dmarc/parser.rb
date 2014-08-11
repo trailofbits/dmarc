@@ -53,7 +53,7 @@ module DMARC
 
     rule(:dmarc_furi) do
       str('ruf') >> wsp? >> str('=') >> wsp? >>
-      dmarc_uri.as(:ruf) >> (wsp? >> str(',') >> wsp? >> dmarc_uri.as(:ruf)).repeat
+      (dmarc_uri >> (wsp? >> str(',') >> wsp? >> dmarc_uri).repeat).as(:ruf)
     end
 
     rule(:dmarc_fo) do
