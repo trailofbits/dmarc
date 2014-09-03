@@ -24,6 +24,17 @@ Install
 
     $ gem install dmarc
 
+Testing
+-------
+
+To run the RSpec tests:
+
+    $ rake spec
+
+To test the parser against the Alexa Top 500:
+
+    $ rake spec:gauntlet
+
 License
 -------
 
