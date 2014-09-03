@@ -284,29 +284,18 @@ describe Parser do
     end
   end
 
-  describe "Alexa Top 500", :gauntlet do
+  context "Alexa Top 500", :gauntlet do
     require 'csv'
-    require 'resolv'
 
     path = File.expand_path('../data/alexa.csv', __FILE__)
     csv  = CSV.new(open(path), headers: false)
 
     csv.each do |row|
-      rank, domain = row
+      rank, domain, dmarc = row
 
-      before(:all) do
-        @resolver = Resolv::DNS.new
-      end
-
-      it "should parse #{domain}" do
-        begin
-          dmarc = @resolver.getresource("_dmarc.#{domain}", Resolv::DNS::Resource::IN::TXT).strings.join
-
-          expect {
-            subject.parse(dmarc)
-          }.to_not raise_error
-        rescue Resolv::ResolvError
-          skip "domain #{domain} has no dmarc information"
+      if dmarc
+        it "should parse #{dmarc.inspect}" do
+          expect { subject.parse(dmarc) }.to_not raise_error
         end
       end
     end

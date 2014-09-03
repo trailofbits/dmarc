@@ -5,11 +5,14 @@
 
 require 'nokogiri'
 require 'open-uri'
+require 'resolv'
 require 'csv'
 
 namespace :alexa do
   desc 'Scrapes the Alexa Top 500 and updates spec/data/alexa.csv'
   task :scrape do
+    resolver = Resolv::DNS.new
+
     CSV.open("spec/data/alexa.csv","w") do |csv|
       (0..19).each do |i|
         url = "http://www.alexa.com/topsites/global;#{i} "
@@ -20,8 +23,18 @@ namespace :alexa do
             site_name = li.css(".desc-container .desc-paragraph a")[0].content
             site_rank = li.css(".count")[0].content
 
-            csv << [site_rank, site_name]
-          rescue
+            puts "Resolving #{site_name} ..."
+            dmarc = begin
+                      resolver.getresource(
+                        "_dmarc.#{site_name.downcase}",
+                        Resolv::DNS::Resource::IN::TXT
+                      ).strings.join
+                    rescue Resolv::ResolvError
+                    end
+
+            csv << [site_rank, site_name, dmarc]
+          rescue => exception
+            warn exception.message
           end
         end
       end
