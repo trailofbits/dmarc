@@ -4,6 +4,7 @@ gemspec
 
 group :development do
   gem 'rake'
+  gem 'nokogiri'
   gem 'rspec', '~> 3.0'
 
   gem 'kramdown'

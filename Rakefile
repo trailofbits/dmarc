@@ -16,9 +16,18 @@ require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new
 
+namespace :spec do
+  desc "Tests DMARC::Parser against Alexa Top 500"
+  RSpec::Core::RakeTask.new(:gauntlet) do |t|
+    t.rspec_opts = '--tag gauntlet'
+  end
+end
+
 task :test    => :spec
 task :default => :spec
 
 require 'yard'
 YARD::Rake::YardocTask.new  
 task :doc => :yard
+
+require_relative 'tasks/alexa'
