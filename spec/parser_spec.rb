@@ -54,6 +54,20 @@ describe Parser do
       )
     end
 
+    it "parses yahoo's dmarc record (as of 2014/08/12)" do
+      record = 'v=DMARC1; p=reject; sp=none; pct=100; rua=mailto:dmarc-yahoo-rua@yahoo-inc.com, mailto:dmarc_y_rua@yahoo.com;'
+      expect(subject.parse record).to eq(
+        v: 'DMARC1',
+        p: 'reject',
+        sp: 'none',
+        pct: '100',
+        rua: [
+          {uri: 'mailto:dmarc-yahoo-rua@yahoo-inc.com'},
+          {uri: 'mailto:dmarc_y_rua@yahoo.com'}
+        ]
+      )
+    end
+
     it 'ignores spacing' do
       record1 = 'v=DMARC1;p=none;sp=reject'
       record2 = 'v = DMARC1 ; p = none ; sp = reject'
