@@ -206,18 +206,15 @@ describe Parser do
     context 'one value' do
       %w[0 1 d s].each do |value|
         it "parses #{value}" do
-          expect(fo.parse("fo=#{value}")).to eq(fo: value)
+          expect(fo.parse("fo=#{value}")).to eq(fo: {opt: value})
         end
       end
     end
 
     it 'parses many values' do
-      expect(fo.parse('fo=0:1:d:s')).to eq([
-        {fo: '0'},
-        {fo: '1'},
-        {fo: 'd'},
-        {fo: 's'}
-      ])
+      expect(fo.parse('fo=0:1:d:s')).to eq(
+        fo: [{opt: '0'}, {opt: '1'}, {opt: 'd'}, {opt: 's'}]
+      )
     end
   end
 

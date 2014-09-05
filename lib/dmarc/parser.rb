@@ -38,45 +38,36 @@ module DMARC
       unknown_tag
     end
 
-    rule(:dmarc_srequest) do
-      str('sp') >> wsp? >> str('=') >> wsp? >> (
-        str('none') |
-        str('quarantine') |
-        str('reject')
-      ).as(:sp)
+    def self.tag_rule(name,tag,&block)
+      rule(:"dmarc_#{name}") do
+        str(tag) >> wsp? >> str('=') >> wsp? >>
+        instance_eval(&block).as(tag.to_sym)
+      end
     end
 
-    rule(:dmarc_auri) do
-      str('rua') >> wsp? >> str('=') >> wsp? >>
-      (dmarc_uri >> (wsp? >> str(',') >> wsp? >> dmarc_uri).repeat).as(:rua)
+    tag_rule(:srequest,'sp') do
+      str('none') | str('quarantine') | str('reject')
     end
 
-    rule(:dmarc_ainterval) do
-      str('ri') >> wsp? >> str('=') >> wsp? >> digit.repeat(1).as(:ri)
+    tag_rule(:auri, 'rua') do
+      dmarc_uri >> (wsp? >> str(',') >> wsp? >> dmarc_uri).repeat
     end
 
-    rule(:dmarc_furi) do
-      str('ruf') >> wsp? >> str('=') >> wsp? >>
-      (dmarc_uri >> (wsp? >> str(',') >> wsp? >> dmarc_uri).repeat).as(:ruf)
+    tag_rule(:ainterval,'ri') { digit.repeat(1) }
+
+    tag_rule(:furi,'ruf') do
+      dmarc_uri >> (wsp? >> str(',') >> wsp? >> dmarc_uri).repeat
     end
 
-    rule(:dmarc_fo) do
-      str('fo') >> wsp? >> str('=') >> wsp? >>
-      match['01ds'].as(:fo) >> (
-        wsp? >> str(':') >> wsp? >> match['01ds'].as(:fo)
-      ).repeat
+    tag_rule(:fo,'fo') do
+      fo >> (wsp? >> str(':') >> wsp? >> fo).repeat
     end
 
-    rule(:dmarc_rfmt) do
-      str('rf') >> wsp? >> str('=') >> wsp? >> (
-        str('afrf') |
-        str('iodef')
-      ).as(:rf)
-    end
+    rule(:fo) { match['01ds'].as(:opt) }
 
-    rule(:dmarc_percent) do
-      str('pct') >> wsp? >> str('=') >> wsp? >> digit.repeat(1, 3).as(:pct)
-    end
+    tag_rule(:rfmt,'rf') { str('afrf') | str('iodef') }
+
+    tag_rule(:percent,'pct') { digit.repeat(1,3) }
 
     rule(:dmarc_adkim) do
       str('adkim') >> wsp? >> str('=') >> wsp? >> (
@@ -92,6 +83,7 @@ module DMARC
     end
 
     rule(:unknown_tag) { match["^; \t"].repeat(1) }
+    rule(:unknown_value) { match["^=; \t"].repeat(1) }
 
     rule(:dmarc_uri) do
       uri.as(:uri) >> (
