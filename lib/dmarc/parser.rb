@@ -5,17 +5,8 @@ module DMARC
 
     root(:dmarc_record)
     rule(:dmarc_record) do
-      dmarc_version >> dmarc_sep >>
-      dmarc_request.maybe >>
-      (dmarc_sep >> dmarc_srequest).maybe >>
-      (dmarc_sep >> dmarc_auri).maybe >>
-      (dmarc_sep >> dmarc_furi).maybe >>
-      (dmarc_sep >> dmarc_adkim).maybe >>
-      (dmarc_sep >> dmarc_aspf).maybe >>
-      (dmarc_sep >> dmarc_ainterval).maybe >>
-      (dmarc_sep >> dmarc_fo).maybe >>
-      (dmarc_sep >> dmarc_rfmt).maybe >>
-      (dmarc_sep >> dmarc_percent).maybe >>
+      dmarc_version >> dmarc_sep >> dmarc_request.maybe >>
+      (dmarc_sep >> dmarc_tag).repeat >>
       dmarc_sep.maybe
     end
 
@@ -32,6 +23,18 @@ module DMARC
         str('quarantine') |
         str('reject')
       ).as(:p)
+    end
+
+    rule(:dmarc_tag) do
+      dmarc_srequest  |
+      dmarc_auri      |
+      dmarc_furi      |
+      dmarc_adkim     |
+      dmarc_aspf      |
+      dmarc_ainterval |
+      dmarc_fo        |
+      dmarc_rfmt      |
+      dmarc_percent
     end
 
     rule(:dmarc_srequest) do
@@ -174,5 +177,16 @@ module DMARC
     rule(:wsp) { str(' ') | str("\t") }
     rule(:wsp?) { wsp.repeat }
 
+  end
+
+  class Transform < Parslet::Transform
+
+    rule(tags: sequence(:tags)) do
+      hash = {}
+
+      tags.each_with_object(hash,&:merge!)
+
+      hash
+    end
   end
 end

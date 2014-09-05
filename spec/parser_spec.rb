@@ -25,33 +25,28 @@ describe Parser do
 
     it 'parses version and policy' do
       record = 'v=DMARC1;p=none'
-      expect(subject.parse record).to eq(
-        v: 'DMARC1',
-        p: 'none',
-      )
+      expect(subject.parse record).to eq(v: 'DMARC1', p: 'none')
     end
 
     it 'parses version, policy, and other tags' do
       record = 'v=DMARC1;p=none;sp=reject;adkim=r;aspf=r'
-      expect(subject.parse record).to eq(
-        v: 'DMARC1',
-        p: 'none',
-        sp: 'reject',
-        adkim: 'r',
-        aspf: 'r',
-      )
+      expect(subject.parse(record)).to eq([
+        {v: 'DMARC1', p: 'none'},
+        {sp: 'reject'},
+        {adkim: 'r'},
+        {aspf: 'r'}
+      ])
     end
 
     it 'parses version, policy, and rua' do
       record = 'v=DMARC1;p=quarantine;rua=mailto:foo@example.com,mailto:bar@example.com'
-      expect(subject.parse record).to eq(
-        v: 'DMARC1',
-        p: 'quarantine',
-        rua: [
+      expect(subject.parse record).to eq([
+        {v: 'DMARC1', p: 'quarantine'},
+        {rua: [
           {uri: 'mailto:foo@example.com'},
           {uri: 'mailto:bar@example.com'}
-        ]
-      )
+        ]}
+      ])
     end
 
     it 'ignores spacing' do
