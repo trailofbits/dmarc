@@ -41,7 +41,7 @@ module DMARC
     def self.tag_rule(name,tag,&block)
       rule(:"dmarc_#{name}") do
         str(tag) >> wsp? >> str('=') >> wsp? >>
-        instance_eval(&block).as(tag.to_sym)
+        (instance_eval(&block).as(tag.to_sym) | unknown_value)
       end
     end
 

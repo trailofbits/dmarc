@@ -64,6 +64,13 @@ describe Parser do
         {aspf: 'r'}
       ])
     end
+
+    it "ignores syntax errors" do
+      record = 'v=DMARC1;p=none;sp;adkim=X;aspf='
+      expect(subject.parse(record)).to eq(
+        {v: 'DMARC1', p: 'none'}
+      )
+    end
   end
 
   describe '#dmarc_version' do
