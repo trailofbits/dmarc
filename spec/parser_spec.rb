@@ -54,6 +54,16 @@ describe Parser do
       record2 = 'v = DMARC1 ; p = none ; sp = reject'
       expect(subject.parse record1).to eq(subject.parse record2)
     end
+
+    it "ignores unknown tags" do
+      record = 'v=DMARC1;p=none;foo=xxx;sp=reject;bar=xxx;adkim=r;aspf=r'
+      expect(subject.parse(record)).to eq([
+        {v: 'DMARC1', p: 'none'},
+        {sp: 'reject'},
+        {adkim: 'r'},
+        {aspf: 'r'}
+      ])
+    end
   end
 
   describe '#dmarc_version' do

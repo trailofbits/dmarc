@@ -34,7 +34,8 @@ module DMARC
       dmarc_ainterval |
       dmarc_fo        |
       dmarc_rfmt      |
-      dmarc_percent
+      dmarc_percent   |
+      unknown_tag
     end
 
     rule(:dmarc_srequest) do
@@ -89,6 +90,8 @@ module DMARC
         match['rs']
       ).as(:aspf)
     end
+
+    rule(:unknown_tag) { match["^; \t"].repeat(1) }
 
     rule(:dmarc_uri) do
       uri.as(:uri) >> (
