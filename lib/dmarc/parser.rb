@@ -170,7 +170,10 @@ module DMARC
       rule(:p  => simple(:p))  { {p:  p.to_sym } }
       rule(:sp => simple(:sp)) { {sp: sp.to_sym} }
       rule(:fo => subtree(:fo)) do
-        {fo: fo.map { |opt| opt[:opt] }}
+        case fo
+        when Array then {fo: fo.map { |opt| opt[:opt] }}
+        when Hash       {fo: [fo[:opt]]}
+        end
       end
 
       rule(:pct => simple(:pct)) { {pct: pct.to_i} }
