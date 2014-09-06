@@ -21,12 +21,7 @@ module DMARC
 
     def initialize(attributes={})
       attributes.merge(DEFAULTS).each_pair do |k,v|
-        case k
-        when :pct, :ri
-          self[k] = v.to_i
-        else
-          self[k] = v
-        end
+        self[k] = v
       end
 
       self.sp ||= p
