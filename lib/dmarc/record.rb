@@ -1,5 +1,5 @@
 require 'dmarc/parser'
-require 'dmarc/errors'
+require 'dmarc/exceptions'
 
 module DMARC
   class Record < Struct.new(:adkim, :aspf, :fo, :p, :pct, :rf, :ri, :rua, :ruf, :sp, :v)
