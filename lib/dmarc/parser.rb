@@ -66,7 +66,7 @@ module DMARC
       fo_opt >> (wsp? >> str(':') >> wsp? >> fo_opt).repeat
     end
 
-    rule(:fo_opt) { match['01ds'].as(:opt) }
+    rule(:fo_opt) { match['01ds'].as(:fo_opt) }
 
     tag_rule(:rfmt,'rf') { str('afrf') | str('iodef') }
 
@@ -167,19 +167,13 @@ module DMARC
 
     class Transform < Parslet::Transform
 
+      rule(:fo_opt => simple(:fo_opt)) { fo_opt }
+
       rule(:p  => simple(:p))  { {p:  p.to_sym } }
       rule(:sp => simple(:sp)) { {sp: sp.to_sym} }
-      rule(:fo => subtree(:fo)) do
-        case fo
-        when Array then {fo: fo.map { |opt| opt[:opt] }}
-        when Hash  then {fo: [fo[:opt]]}
-        end
-      end
 
       rule(:pct => simple(:pct)) { {pct: pct.to_i} }
       rule(:ri  => simple(:ri))  { {ri:  ri.to_i}  }
-
-      rule(:root) { p tags }
 
     end
 

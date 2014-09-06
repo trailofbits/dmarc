@@ -220,14 +220,14 @@ describe Parser do
     context 'one value' do
       %w[0 1 d s].each do |value|
         it "parses #{value}" do
-          expect(fo.parse("fo=#{value}")).to eq(fo: {opt: value})
+          expect(fo.parse("fo=#{value}")).to eq(fo: {fo_opt: value})
         end
       end
     end
 
     it 'parses many values' do
       expect(fo.parse('fo=0:1:d:s')).to eq(
-        fo: [{opt: '0'}, {opt: '1'}, {opt: 'd'}, {opt: 's'}]
+        fo: [{fo_opt: '0'}, {fo_opt: '1'}, {fo_opt: 'd'}, {fo_opt: 's'}]
       )
     end
   end
@@ -300,22 +300,43 @@ describe Parser do
     end
   end
 
-  describe "#parse" do
-    let(:record) { "v=DMARC1;p=none;pct=100;fo=0:1:d:s" }
+  describe "Transform" do
+    let(:tree) do
+      [
+        {v: 'DMARC1'},
+        {p: 'none'},
+        {pct: '100'},
+        {fo: [{fo_opt: '0'}, {fo_opt: '1'}, {fo_opt: 'd'}, {fo_opt: 's'}]}
+      ]
+    end
 
-    subject { super().parse(record) }
+    subject { described_class::Transform.new.apply(tree) }
 
     it "should coerce :p into a Symbol" do
-      expect(subject[:p]).to eq :none
+      expect(subject).to include(p: :none)
     end
 
     it "should flatten :fo options" do
-      expect(subject[:fo]).to eq %w[0 1 d s]
+      expect(subject).to include(fo: %w[0 1 d s])
     end
 
     it "should coerce :pct into an Integer" do
-      expect(subject[:pct]).to eq 100
+      expect(subject).to include(pct: 100)
     end
+  end
+
+  describe "#parse" do
+    let(:record) { "v=DMARC1;p=none;pct=100;fo=0:1:d:s" }
+
+    it "should combine all tags into one Hash" do
+      expect(subject.parse(record)).to eq(
+        v: 'DMARC1',
+        p: :none,
+        pct: 100,
+        fo: ['0', '1', 'd', 's']
+      )
+    end
+
   end
 
   context "Alexa Top 500", :gauntlet do
