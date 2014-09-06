@@ -2,20 +2,36 @@ require 'parslet'
 
 module DMARC
   class Parser < Parslet::Parser
+    class Transform < Parslet::Transform
+
+      rule(:p  => simple(:p)) { {p: p.to_sym} }
+      rule(:fo => subtree(:fo)) do
+        {fo: fo.map { |opt| opt[:opt] }}
+      end
+
+      rule(:pct => simple(:pct)) { {pct: pct.to_i} }
+      rule(:ri  => simple(:ri))  { {ri:  ri.to_i}  }
+    end
+
+    def parse(data)
+      Transform.new.apply(super(data))
+    end
 
     root(:dmarc_record)
     rule(:dmarc_record) do
-      dmarc_version >> dmarc_sep >> dmarc_request.maybe >>
+      dmarc_version >> dmarc_sep >>
+      dmarc_request.maybe >>
       (dmarc_sep >> dmarc_tag).repeat >>
       dmarc_sep.maybe
     end
+
+    rule(:dmarc_sep) { wsp? >> str(';') >> wsp? }
 
     rule(:dmarc_version) do
       str('v') >> wsp? >>
       str('=') >> wsp? >>
       str('DMARC1').as(:v)
     end
-    rule(:dmarc_sep) { wsp? >> str(';') >> wsp? }
 
     rule(:dmarc_request) do
       str('p') >> wsp? >> str('=') >> wsp? >> (
@@ -69,18 +85,8 @@ module DMARC
 
     tag_rule(:percent,'pct') { digit.repeat(1,3) }
 
-    rule(:dmarc_adkim) do
-      str('adkim') >> wsp? >> str('=') >> wsp? >> (
-        str('r') |
-        str('s')
-      ).as(:adkim)
-    end
-
-    rule(:dmarc_aspf) do
-      str('aspf') >> wsp? >> str('=') >> wsp? >> (
-        match['rs']
-      ).as(:aspf)
-    end
+    tag_rule(:adkim, 'adkim') { match['rs'] }
+    tag_rule(:aspf, 'aspf')   { match['rs'] }
 
     rule(:unknown_tag) { match["^; \t"].repeat(1) }
     rule(:unknown_value) { match["^=; \t"].repeat(1) }
@@ -172,16 +178,5 @@ module DMARC
     rule(:wsp) { str(' ') | str("\t") }
     rule(:wsp?) { wsp.repeat }
 
-  end
-
-  class Transform < Parslet::Transform
-
-    rule(tags: sequence(:tags)) do
-      hash = {}
-
-      tags.each_with_object(hash,&:merge!)
-
-      hash
-    end
   end
 end

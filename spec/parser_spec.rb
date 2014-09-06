@@ -293,6 +293,22 @@ describe Parser do
     end
   end
 
+  describe "#parse" do
+    it "should flatten :fo options" do
+      expect(subject.parse('v=DMARC1;p=none;fo=0:1:d:s')).to eq([
+        {v: 'DMARC1', p: 'none'},
+        {fo: ['0', '1', 'd', 's']}
+      ])
+    end
+
+    it "should coerce :pct into an Integer" do
+      expect(subject.parse('v=DMARC1;p=none;pct=1')).to eq([
+        {v: 'DMARC1', p: 'none'},
+        {pct: 1}
+      ])
+    end
+  end
+
   context "Alexa Top 500", :gauntlet do
     require 'csv'
 
