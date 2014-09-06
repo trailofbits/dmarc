@@ -5,7 +5,7 @@ module DMARC
   class Record < Struct.new(:adkim, :aspf, :fo, :p, :pct, :rf, :ri, :rua, :ruf, :sp, :v)
 
     def self.from_txt(rec)
-      new(DMARC::Parser.new.parse(rec))
+      new(Parser.new.parse(rec))
     rescue Parslet::ParseFailed
       raise InvalidRecord
     end

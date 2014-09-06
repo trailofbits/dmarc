@@ -2,24 +2,11 @@ require 'parslet'
 
 module DMARC
   class Parser < Parslet::Parser
-    class Transform < Parslet::Transform
 
-      rule(:p  => simple(:p)) { {p: p.to_sym} }
-      rule(:fo => subtree(:fo)) do
-        {fo: fo.map { |opt| opt[:opt] }}
-      end
+    root :dmarc_record
 
-      rule(:pct => simple(:pct)) { {pct: pct.to_i} }
-      rule(:ri  => simple(:ri))  { {ri:  ri.to_i}  }
-    end
-
-    def parse(data)
-      Transform.new.apply(super(data))
-    end
-
-    root(:dmarc_record)
     rule(:dmarc_record) do
-      dmarc_version >> dmarc_sep >>
+      dmarc_version.repeat(1,1) >> dmarc_sep >>
       dmarc_request.maybe >>
       (dmarc_sep >> dmarc_tag).repeat >>
       dmarc_sep.maybe
@@ -76,10 +63,10 @@ module DMARC
     end
 
     tag_rule(:fo,'fo') do
-      fo >> (wsp? >> str(':') >> wsp? >> fo).repeat
+      fo_opt >> (wsp? >> str(':') >> wsp? >> fo_opt).repeat
     end
 
-    rule(:fo) { match['01ds'].as(:opt) }
+    rule(:fo_opt) { match['01ds'].as(:opt) }
 
     tag_rule(:rfmt,'rf') { str('afrf') | str('iodef') }
 
@@ -177,6 +164,39 @@ module DMARC
     rule(:digit) { match('[0-9]') }
     rule(:wsp) { str(' ') | str("\t") }
     rule(:wsp?) { wsp.repeat }
+
+    class Transform < Parslet::Transform
+
+      rule(:p  => simple(:p))  { {p:  p.to_sym } }
+      rule(:sp => simple(:sp)) { {sp: sp.to_sym} }
+      rule(:fo => subtree(:fo)) do
+        {fo: fo.map { |opt| opt[:opt] }}
+      end
+
+      rule(:pct => simple(:pct)) { {pct: pct.to_i} }
+      rule(:ri  => simple(:ri))  { {ri:  ri.to_i}  }
+
+      rule(:root) { p tags }
+
+    end
+
+    #
+    # Parses a DMARC record.
+    #
+    # @param [String] record
+    #   The raw DMARC record to parse.
+    #
+    # @return [Hash{Symbol => Object}]
+    #   The Hash of tags within the record.
+    #
+    def parse(record)
+      tags = Transform.new.apply(super(record))
+      hash = {}
+
+      tags.each { |tag| hash.merge!(tag) }
+
+      return hash
+    end
 
   end
 end

@@ -52,19 +52,11 @@ describe Record do
 
   describe '.from_txt' do
     context 'with a valid record' do
-      let(:dmarc_record) { double(:record) }
-      let(:dmarc_parser) { double(:parser) }
-      it 'parses the record' do
-        expect(DMARC::Parser).to receive(:new).and_return dmarc_parser
-        expect(dmarc_parser).to receive(:parse).with dmarc_record
-        allow(DMARC::Record).to receive(:new)
-        described_class.from_txt(dmarc_record)
-      end
-
-      it 'returns a record' do
+      it 'parse and returns a record' do
         rec = described_class.from_txt('v=DMARC1; p=quarantine')
+
         expect(rec).to be_a DMARC::Record
-        expect(rec.p).to eq 'quarantine'
+        expect(rec.p).to eq :quarantine
       end
     end
 

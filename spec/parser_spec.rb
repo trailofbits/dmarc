@@ -25,13 +25,17 @@ describe Parser do
 
     it 'parses version and policy' do
       record = 'v=DMARC1;p=none'
-      expect(subject.parse record).to eq(v: 'DMARC1', p: 'none')
+      expect(subject.parse record).to eq([
+        {v: 'DMARC1'},
+        {p: 'none'}
+      ])
     end
 
     it 'parses version, policy, and other tags' do
       record = 'v=DMARC1;p=none;sp=reject;adkim=r;aspf=r'
       expect(subject.parse(record)).to eq([
-        {v: 'DMARC1', p: 'none'},
+        {v: 'DMARC1'},
+        {p: 'none'},
         {sp: 'reject'},
         {adkim: 'r'},
         {aspf: 'r'}
@@ -41,7 +45,8 @@ describe Parser do
     it 'parses version, policy, and rua' do
       record = 'v=DMARC1;p=quarantine;rua=mailto:foo@example.com,mailto:bar@example.com'
       expect(subject.parse record).to eq([
-        {v: 'DMARC1', p: 'quarantine'},
+        {v: 'DMARC1'},
+        {p: 'quarantine'},
         {rua: [
           {uri: 'mailto:foo@example.com'},
           {uri: 'mailto:bar@example.com'}
@@ -58,7 +63,8 @@ describe Parser do
     it "ignores unknown tags" do
       record = 'v=DMARC1;p=none;foo=xxx;sp=reject;bar=xxx;adkim=r;aspf=r'
       expect(subject.parse(record)).to eq([
-        {v: 'DMARC1', p: 'none'},
+        {v: 'DMARC1'},
+        {p: 'none'},
         {sp: 'reject'},
         {adkim: 'r'},
         {aspf: 'r'}
@@ -67,9 +73,10 @@ describe Parser do
 
     it "ignores syntax errors" do
       record = 'v=DMARC1;p=none;sp;adkim=X;aspf='
-      expect(subject.parse(record)).to eq(
-        {v: 'DMARC1', p: 'none'}
-      )
+      expect(subject.parse(record)).to eq([
+        {v: 'DMARC1'},
+        {p: 'none'}
+      ])
     end
   end
 
@@ -294,18 +301,20 @@ describe Parser do
   end
 
   describe "#parse" do
+    let(:record) { "v=DMARC1;p=none;pct=100;fo=0:1:d:s" }
+
+    subject { super().parse(record) }
+
+    it "should coerce :p into a Symbol" do
+      expect(subject[:p]).to eq :none
+    end
+
     it "should flatten :fo options" do
-      expect(subject.parse('v=DMARC1;p=none;fo=0:1:d:s')).to eq([
-        {v: 'DMARC1', p: 'none'},
-        {fo: ['0', '1', 'd', 's']}
-      ])
+      expect(subject[:fo]).to eq %w[0 1 d s]
     end
 
     it "should coerce :pct into an Integer" do
-      expect(subject.parse('v=DMARC1;p=none;pct=1')).to eq([
-        {v: 'DMARC1', p: 'none'},
-        {pct: 1}
-      ])
+      expect(subject[:pct]).to eq 100
     end
   end
 
