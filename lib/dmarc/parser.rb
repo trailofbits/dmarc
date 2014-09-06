@@ -172,7 +172,7 @@ module DMARC
       rule(:fo => subtree(:fo)) do
         case fo
         when Array then {fo: fo.map { |opt| opt[:opt] }}
-        when Hash       {fo: [fo[:opt]]}
+        when Hash  then {fo: [fo[:opt]]}
         end
       end
 
