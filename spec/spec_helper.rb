@@ -1,5 +1,5 @@
 require 'rspec'
-require 'dmarc/version'
+require 'dmarc'
 
 include DMARC
 
