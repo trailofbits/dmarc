@@ -2,6 +2,7 @@ dmarc
 =====
 
 [![Code Climate](https://codeclimate.com/github/trailofbits/dmarc.png)](https://codeclimate.com/github/trailofbits/dmarc) [![Build Status](https://travis-ci.org/trailofbits/dmarc.svg)](https://travis-ci.org/trailofbits/dmarc)
+[![Gem Version](https://badge.fury.io/rb/dmarc.svg)](http://badge.fury.io/rb/dmarc)
 
 [DMARC] is a technical specification intended to solve a couple of long-standing
 email authentication problems. DMARC policies are described in DMARC "records," 
