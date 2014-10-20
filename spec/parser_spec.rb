@@ -300,7 +300,7 @@ describe Parser do
     end
   end
 
-  describe "Transform" do
+  describe Parser::Transform do
     let(:tree) do
       [
         {v: 'DMARC1'},
@@ -310,7 +310,7 @@ describe Parser do
       ]
     end
 
-    subject { described_class::Transform.new.apply(tree) }
+    subject { described_class.new.apply(tree) }
 
     it "should coerce :p into a Symbol" do
       expect(subject).to include(p: :none)

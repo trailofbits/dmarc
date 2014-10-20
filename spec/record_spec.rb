@@ -55,7 +55,7 @@ describe Record do
       it 'parse and returns a record' do
         rec = described_class.from_txt('v=DMARC1; p=quarantine')
 
-        expect(rec).to be_a DMARC::Record
+        expect(rec).to be_a Record
         expect(rec.p).to eq :quarantine
       end
     end
@@ -63,7 +63,7 @@ describe Record do
     context 'with an invalid record' do
       it 'raises an InvalidRecord error' do
         expect { described_class.from_txt('v=DMARC1; foo=bar') }.to raise_error do |error|
-          expect(error).to be_a DMARC::InvalidRecord
+          expect(error).to be_a InvalidRecord
           expect(error.ascii_tree).to_not be_nil
         end
       end
