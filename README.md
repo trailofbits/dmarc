@@ -1,5 +1,4 @@
-dmarc
-=====
+# DMARC
 
 [![Code Climate](https://codeclimate.com/github/trailofbits/dmarc.png)](https://codeclimate.com/github/trailofbits/dmarc) [![Build Status](https://travis-ci.org/trailofbits/dmarc.svg)](https://travis-ci.org/trailofbits/dmarc)
 [![Gem Version](https://badge.fury.io/rb/dmarc.svg)](http://badge.fury.io/rb/dmarc)
@@ -9,24 +8,20 @@ email authentication problems. DMARC policies are described in DMARC "records,"
 which are stored as DNS TXT records on a subdomain. This library contains a
 parser for DMARC records.
 
-Example
--------
+## Example
 
     require 'dmarc/record'
     record = DMARC::Record.from_txt(txt) # txt is a DNS TXT record containing the DMARC policy
 
-Requirements
-------------
+## Requirements
 
 * [parslet] ~> 1.5
 
-Install
--------
+## Install
 
     $ gem install dmarc
 
-Testing
--------
+## Testing
 
 To run the RSpec tests:
 
@@ -36,8 +31,7 @@ To test the parser against the Alexa Top 500:
 
     $ rake spec:gauntlet
 
-License
--------
+## License
 
 See the {file:LICENSE.txt} file.
 
