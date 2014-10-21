@@ -11,8 +11,9 @@ parser for DMARC records.
 
 ## Example
 
-    require 'dmarc/record'
-    record = DMARC::Record.from_txt(txt) # txt is a DNS TXT record containing the DMARC policy
+    require 'dmarc'
+
+    record = DMARC::Record.from_txt(txt)
 
 ## Requirements
 
