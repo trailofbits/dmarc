@@ -3,6 +3,7 @@
 [![Code Climate](https://codeclimate.com/github/trailofbits/dmarc.png)](https://codeclimate.com/github/trailofbits/dmarc) [![Build Status](https://travis-ci.org/trailofbits/dmarc.svg)](https://travis-ci.org/trailofbits/dmarc)
 [![Gem Version](https://badge.fury.io/rb/dmarc.svg)](http://badge.fury.io/rb/dmarc)
 [![YARD Docs](http://img.shields.io/badge/yard-docs-blue.svg)](http://rubydoc.info/gems/dmarc)
+[![Test Coverage](https://codeclimate.com/github/trailofbits/dmarc/badges/coverage.svg)](https://codeclimate.com/github/trailofbits/dmarc)
 
 [DMARC] is a technical specification intended to solve a couple of long-standing
 email authentication problems. DMARC policies are described in DMARC "records," 

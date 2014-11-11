@@ -10,3 +10,5 @@ group :development do
   gem 'kramdown'
   gem 'yard', '~> 0.8'
 end
+
+gem "codeclimate-test-reporter", group: :test, require: nil
