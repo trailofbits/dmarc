@@ -21,10 +21,22 @@ module DMARC
       self.sp ||= p
     end
 
-    def self.from_txt(rec)
+    #
+    # @since 0.3.0
+    #
+    # @api public
+    #
+    def self.parse(rec)
       new(Parser.new.parse(rec))
     rescue Parslet::ParseFailed
       raise InvalidRecord
+    end
+
+    #
+    # @deprecated use {parse} instead.
+    #
+    def self.from_txt(rec)
+      parse(rec)
     end
 
   end
