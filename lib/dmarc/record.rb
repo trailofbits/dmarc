@@ -4,12 +4,6 @@ require 'dmarc/exceptions'
 module DMARC
   class Record < Struct.new(:adkim, :aspf, :fo, :p, :pct, :rf, :ri, :rua, :ruf, :sp, :v)
 
-    def self.from_txt(rec)
-      new(Parser.new.parse(rec))
-    rescue Parslet::ParseFailed
-      raise InvalidRecord
-    end
-
     DEFAULTS = {
       adkim: 'r',
       aspf:  'r',
@@ -25,6 +19,12 @@ module DMARC
       end
 
       self.sp ||= p
+    end
+
+    def self.from_txt(rec)
+      new(Parser.new.parse(rec))
+    rescue Parslet::ParseFailed
+      raise InvalidRecord
     end
 
   end
