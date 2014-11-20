@@ -11,4 +11,7 @@ group :development do
   gem 'yard', '~> 0.8'
 end
 
-gem "codeclimate-test-reporter", group: :test, require: nil
+group :test do
+  gem 'json'
+  gem 'codeclimate-test-reporter', require: nil
+end
