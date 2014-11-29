@@ -1,6 +1,5 @@
 language: ruby
 rvm:
-<<<<<<< HEAD
 - 1.9.3
 - 2.0
 - 2.1
@@ -11,19 +10,6 @@ rvm:
 matrix:
   allow_failures:
   - rvm: rbx-2
-=======
-  - 1.9.3
-  - 2.0.0
-  - 2.1.1
-  - 2.1.2
-  - ruby-head
-  - jruby-19mode
-  - jruby-head
-  - rbx-2
-matrix:
-  allow_failures:
-   - rvm: rbx-2
->>>>>>> FETCH_HEAD
 addons:
   code_climate:
     repo_token: 27519af871c1d9576b91e6f264e841eb7b7babbdcda315bf94fcbd095c202949
