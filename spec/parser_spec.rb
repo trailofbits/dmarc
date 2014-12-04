@@ -341,7 +341,7 @@ describe Parser do
 
     it "should combine all tags into one Hash" do
       expect(subject.parse(record)).to eq(
-        v: 'DMARC1',
+        v: :DMARC1,
         p: :none,
         pct: 100,
         fo: ['0', '1', 'd', 's']
