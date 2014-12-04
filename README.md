@@ -14,7 +14,40 @@ parser for DMARC records.
 
     require 'dmarc'
 
-    record = DMARC::Record.from_txt(txt)
+    record = DMARC::Record.parse("v=DMARC1; p=reject; rua=mailto:d@rua.agari.com; ruf=mailto:d@ruf.agari.com; fo=1")
+
+    record.v
+    # => :DMARC1
+
+    record.adkim
+    # => :r
+
+    record.aspf
+    # => :r
+
+    record.fo
+    # => ["0"]
+
+    record.p
+    # => :reject
+
+    record.pct
+    # => 100
+
+    record.rf
+    # => :afrf
+
+    record.ri
+    # => 86400
+
+    record.rua
+    # => #<URI::MailTo:0x000000034a1cc8 URL:mailto:d@rua.agari.com>
+
+    record.ruf
+    # => #<URI::MailTo:0x000000034a02b0 URL:mailto:d@ruf.agari.com>
+
+    record.sp
+    # => :reject
 
 ## Requirements
 
