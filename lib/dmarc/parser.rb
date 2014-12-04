@@ -1,5 +1,7 @@
 require 'parslet'
 
+require 'uri'
+
 module DMARC
   class Parser < Parslet::Parser
 
@@ -174,6 +176,8 @@ module DMARC
 
       rule(pct: simple(:pct)) { {pct: pct.to_i} }
       rule(ri:  simple(:ri))  { {ri:  ri.to_i}  }
+
+      rule(uri: simple(:uri)) { URI(uri) }
 
     end
 

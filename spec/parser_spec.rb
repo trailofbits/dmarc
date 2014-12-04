@@ -308,7 +308,8 @@ describe Parser do
         {v: 'DMARC1'},
         {p: 'none'},
         {pct: '100'},
-        {fo: [{fo_opt: '0'}, {fo_opt: '1'}, {fo_opt: 'd'}, {fo_opt: 's'}]}
+        {fo: [{fo_opt: '0'}, {fo_opt: '1'}, {fo_opt: 'd'}, {fo_opt: 's'}]},
+        {rua: {uri: "mailto:d@rua.agari.com"}}
       ]
     end
 
@@ -324,6 +325,10 @@ describe Parser do
 
     it "should coerce :pct into an Integer" do
       expect(subject).to include(pct: 100)
+    end
+
+    it "should convert {uri: ...} to URI objects" do
+      expect(subject).to include(rua: URI("mailto:d@rua.agari.com"))
     end
   end
 
