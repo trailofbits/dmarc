@@ -9,7 +9,7 @@ module DMARC
     DEFAULTS = {
       adkim: :r,
       aspf:  :r,
-      fo:    '0',
+      fo:    ['0'],
       pct:   100,
       rf:    :afrf,
       ri:    86400,
