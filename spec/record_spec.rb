@@ -82,7 +82,7 @@ describe Record do
         record = subject.query(domain)
 
         expect(record).to be_kind_of(Record)
-        expect(record.v).to be == 'DMARC1'
+        expect(record.v).to be == :DMARC1
       end
     end
 
