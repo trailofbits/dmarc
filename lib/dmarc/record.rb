@@ -4,23 +4,106 @@ require 'dmarc/exceptions'
 require 'resolv'
 
 module DMARC
-  class Record < Struct.new(:adkim, :aspf, :fo, :p, :pct, :rf, :ri, :rua, :ruf, :sp, :v)
+  class Record
 
     DEFAULTS = {
-      adkim: 'r',
-      aspf:  'r',
+      adkim: :r,
+      aspf:  :r,
       fo:    '0',
       pct:   100,
-      rf:    'afrf',
+      rf:    :afrf,
       ri:    86400,
-    }
+    }.freeze
 
+    # `adkim` field.
+    #
+    # @return [:r, :s]
+    attr_reader :adkim
+
+    # `aspf` field.
+    #
+    # @return [:r, :s]
+    attr_reader :aspf
+
+    # `fo` field.
+    #
+    # @return [Array<'0', '1', 'd', 's'>]
+    attr_reader :fo
+
+    # `p` field.
+    # 
+    # @return [:none, :quarantine, :reject]
+    attr_reader :p
+
+    # `pct` field.
+    #
+    # @return [Integer]
+    attr_reader :pct
+
+    # `rf` field.
+    # 
+    # @return [:afrf, :iodef]
+    attr_reader :rf
+
+    # `ri` field.
+    #
+    # @return [Integer]
+    attr_reader :ri
+
+    # `rua` field.
+    #
+    # @return [URI::MailTo]
+    attr_reader :rua
+
+    # `rua` field.
+    #
+    # @return [URI::MailTo]
+    attr_reader :ruf
+
+    # `sp` field.
+    # 
+    # @return [:none, :quarantine, :reject]
+    attr_reader :sp
+
+    # `v` field.
+    #
+    # @return [:DMARC1]
+    attr_reader :v
+
+    #
+    # Initializes the record.
+    #
+    # @param [Hash{Symbol => Object}] attributes
+    #   Attributes for the record.
+    #
+    # @option attributes [:r, :s] :adkim (:r)
+    #
+    # @option attributes [:r, :s] :aspf (:r)
+    #
+    # @option attributes [Array<'0', '1', 'd', 's'>] :fo ('0')
+    #
+    # @option attributes [:none, :quarantine, :reject] :p
+    #
+    # @option attributes [Integer] :pct (100)
+    #
+    # @option attributes [:afrf, :iodef] :rf (:afrf)
+    #
+    # @option attributes [Integer] :ri (86400)
+    #
+    # @option attributes [URI::MailTo] :rua
+    #
+    # @option attributes [URI::MailTo] :ruf
+    #
+    # @option attributes [:none, :quarantine, :reject] :sp
+    #
+    # @option attributes [:DMARC1] :v
+    #
     def initialize(attributes={})
-      attributes.merge(DEFAULTS).each_pair do |k,v|
-        self[k] = v
-      end
+      attributes = attributes.merge(DEFAULTS)
 
-      self.sp ||= p
+      @adkim, @aspf, @fo, @p, @pct, @rf, @ri, @rua, @ruf, @sp, @v = attributes.values_at(:adkim, :aspf, :fo, :p, :pct, :rf, :ri, :rua, :ruf, :sp, :v)
+
+      @sp ||= @p
     end
 
     #
@@ -29,7 +112,7 @@ module DMARC
     # @api public
     #
     def self.parse(rec)
-      new(Parser.new.parse(rec))
+      new(Parser.parse(rec))
     rescue Parslet::ParseFailed
       raise InvalidRecord
     end
