@@ -99,7 +99,7 @@ module DMARC
     # @option attributes [:DMARC1] :v
     #
     def initialize(attributes={})
-      attributes = attributes.merge(DEFAULTS)
+      attributes = DEFAULTS.merge(attributes)
 
       @adkim, @aspf, @fo, @p, @pct, @rf, @ri, @rua, @ruf, @sp, @v = attributes.values_at(:adkim, :aspf, :fo, :p, :pct, :rf, :ri, :rua, :ruf, :sp, :v)
 
