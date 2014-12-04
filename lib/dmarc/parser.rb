@@ -169,6 +169,8 @@ module DMARC
 
     class Transform < Parslet::Transform
 
+      rule(v: simple(:version)) { {v: version.to_sym} }
+
       rule(fo_opt: simple(:fo_opt)) { fo_opt }
 
       rule(p:  simple(:p))  { {p:  p.to_sym } }

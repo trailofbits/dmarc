@@ -315,6 +315,10 @@ describe Parser do
 
     subject { described_class.new.apply(tree) }
 
+    it "should coerce {v: \"DMARC1\"} into a Symbol" do
+      expect(subject).to include(v: :DMARC1)
+    end
+
     it "should coerce :p into a Symbol" do
       expect(subject).to include(p: :none)
     end
