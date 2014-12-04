@@ -177,7 +177,7 @@ module DMARC
       rule(pct: simple(:pct)) { {pct: pct.to_i} }
       rule(ri:  simple(:ri))  { {ri:  ri.to_i}  }
 
-      rule(uri: simple(:uri)) { URI(uri) }
+      rule(uri: simple(:uri)) { URI.parse(uri) }
 
     end
 
