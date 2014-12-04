@@ -1,6 +1,8 @@
 require 'dmarc/parser'
 require 'dmarc/exceptions'
 
+require 'resolv'
+
 module DMARC
   class Record < Struct.new(:adkim, :aspf, :fo, :p, :pct, :rf, :ri, :rua, :ruf, :sp, :v)
 
@@ -37,6 +39,31 @@ module DMARC
     #
     def self.from_txt(rec)
       parse(rec)
+    end
+
+    #
+    # Queries and parses the DMARC record for a domain.
+    #
+    # @param [String] domain
+    #   The domain to query DMARC for.
+    #
+    # @param [Resolv::DNS] resolver
+    #   The resolver to use.
+    #
+    # @return [Record]
+    #   The parsed DMARC record.
+    #
+    # @since 0.3.0
+    #
+    # @api public
+    #
+    def self.query(domain,resolver=Resolv::DNS.new)
+      subdomain = "_dmarc.#{domain}"
+      dmarc     = resolver.getresource(
+        subdomain, Resolv::DNS::Resource::IN::TXT
+      ).strings.join
+
+      return parse(dmarc)
     end
 
   end
