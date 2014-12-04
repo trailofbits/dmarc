@@ -51,9 +51,11 @@ describe Record do
   end
 
   describe '.parse' do
+    subject { described_class }
+
     context 'with a valid record' do
       it 'parse and returns a record' do
-        rec = described_class.parse('v=DMARC1; p=quarantine')
+        rec = subject.parse('v=DMARC1; p=quarantine')
 
         expect(rec).to be_a Record
         expect(rec.p).to eq :quarantine
@@ -62,7 +64,7 @@ describe Record do
 
     context 'with an invalid record' do
       it 'raises an InvalidRecord error' do
-        expect { described_class.parse('v=DMARC1; foo=bar') }.to raise_error do |error|
+        expect { subject.parse('v=DMARC1; foo=bar') }.to raise_error do |error|
           expect(error).to be_a InvalidRecord
           expect(error.ascii_tree).to_not be_nil
         end
