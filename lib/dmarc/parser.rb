@@ -167,13 +167,13 @@ module DMARC
 
     class Transform < Parslet::Transform
 
-      rule(:fo_opt => simple(:fo_opt)) { fo_opt }
+      rule(fo_opt: simple(:fo_opt)) { fo_opt }
 
-      rule(:p  => simple(:p))  { {p:  p.to_sym } }
-      rule(:sp => simple(:sp)) { {sp: sp.to_sym} }
+      rule(p:  simple(:p))  { {p:  p.to_sym } }
+      rule(sp: simple(:sp)) { {sp: sp.to_sym} }
 
-      rule(:pct => simple(:pct)) { {pct: pct.to_i} }
-      rule(:ri  => simple(:ri))  { {ri:  ri.to_i}  }
+      rule(pct: simple(:pct)) { {pct: pct.to_i} }
+      rule(ri:  simple(:ri))  { {ri:  ri.to_i}  }
 
     end
 
