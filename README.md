@@ -12,6 +12,8 @@ parser for DMARC records.
 
 ## Example
 
+Parse a SPF record:
+
     require 'dmarc'
 
     record = DMARC::Record.parse("v=DMARC1; p=reject; rua=mailto:d@rua.agari.com; ruf=mailto:d@ruf.agari.com; fo=1")
@@ -48,6 +50,11 @@ parser for DMARC records.
 
     record.sp
     # => :reject
+
+Query the SPF record for a domain:
+
+    record = DMARC::Record.query('twitter.com')
+    # => #<DMARC::Record:0x0000000313bd90 @adkim=:r, @aspf=:r, @fo=["1"@79], @p=:reject, @pct=100, @rf=:afrf, @ri=86400, @rua=#<URI::MailTo:0x00000003124e38 URL:mailto:d@rua.agari.com>, @ruf=#<URI::MailTo:0x00000003132678 URL:mailto:d@ruf.agari.com>, @sp=:reject, @v=:DMARC1>
 
 ## Requirements
 
