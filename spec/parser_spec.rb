@@ -307,7 +307,10 @@ describe Parser do
       [
         {v: 'DMARC1'},
         {p: 'none'},
+        {sp: 'reject'},
         {pct: '100'},
+        {adkim: 'r'},
+        {aspf: 'r'},
         {fo: [{fo_opt: '0'}, {fo_opt: '1'}, {fo_opt: 'd'}, {fo_opt: 's'}]},
         {rua: {uri: "mailto:d@rua.agari.com"}}
       ]
@@ -315,12 +318,16 @@ describe Parser do
 
     subject { described_class.new.apply(tree) }
 
-    it "should coerce {v: \"DMARC1\"} into a Symbol" do
+    it "should coerce :v into a Symbol" do
       expect(subject).to include(v: :DMARC1)
     end
 
     it "should coerce :p into a Symbol" do
       expect(subject).to include(p: :none)
+    end
+
+    it "should coerce :sp into a Symbol" do
+      expect(subject).to include(sp: :reject)
     end
 
     it "should flatten :fo options" do
@@ -331,12 +338,22 @@ describe Parser do
       expect(subject).to include(pct: 100)
     end
 
+    it "should coerce :adkim into a Symbol" do
+      expect(subject).to include(adkim: :r)
+    end
+
+    it "should coerce :aspf into a Symbol" do
+      expect(subject).to include(aspf: :r)
+    end
+
     it "should convert {uri: ...} to URI objects" do
       expect(subject).to include(rua: URI("mailto:d@rua.agari.com"))
     end
   end
 
-  describe "#parse" do
+  describe ".parse" do
+    subject { described_class }
+
     let(:record) { "v=DMARC1;p=none;pct=100;fo=0:1:d:s" }
 
     it "should combine all tags into one Hash" do
@@ -348,20 +365,19 @@ describe Parser do
       )
     end
 
-  end
+    context "Alexa Top 500", :gauntlet do
+      require 'csv'
 
-  context "Alexa Top 500", :gauntlet do
-    require 'csv'
+      path = File.expand_path('../data/alexa.csv', __FILE__)
+      csv  = CSV.new(open(path), headers: false)
 
-    path = File.expand_path('../data/alexa.csv', __FILE__)
-    csv  = CSV.new(open(path), headers: false)
+      csv.each do |row|
+        rank, domain, dmarc = row
 
-    csv.each do |row|
-      rank, domain, dmarc = row
-
-      if dmarc
-        it "should parse #{dmarc.inspect}" do
-          expect { subject.parse(dmarc) }.to_not raise_error
+        if dmarc
+          it "should parse #{dmarc.inspect}" do
+            expect { subject.parse(dmarc) }.to_not raise_error
+          end
         end
       end
     end

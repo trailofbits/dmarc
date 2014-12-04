@@ -169,12 +169,14 @@ module DMARC
 
     class Transform < Parslet::Transform
 
-      rule(v: simple(:version)) { {v: version.to_sym} }
-
       rule(fo_opt: simple(:fo_opt)) { fo_opt }
 
+      rule(v: simple(:version)) { {v: version.to_sym} }
       rule(p:  simple(:p))  { {p:  p.to_sym } }
       rule(sp: simple(:sp)) { {sp: sp.to_sym} }
+      rule(rf: simple(:rf)) { {rf: rf.to_sym} }
+      rule(adkim: simple(:adkim)) { {adkim: adkim.to_sym} }
+      rule(aspf:  simple(:aspf))  { {aspf: aspf.to_sym} }
 
       rule(pct: simple(:pct)) { {pct: pct.to_i} }
       rule(ri:  simple(:ri))  { {ri:  ri.to_i}  }
@@ -192,8 +194,8 @@ module DMARC
     # @return [Hash{Symbol => Object}]
     #   The Hash of tags within the record.
     #
-    def parse(record)
-      tags = Transform.new.apply(super(record))
+    def self.parse(record)
+      tags = Transform.new.apply(new.parse(record))
       hash = {}
 
       tags.each { |tag| hash.merge!(tag) }
