@@ -88,9 +88,7 @@ describe Record do
 
     context "when given a bad domain" do
       it "should raise a DNS error" do
-        expect {
-          subject.query('foobar.com')
-        }.to raise_error
+        expect(subject.query('foobar.com')).to be_nil
       end
     end
   end

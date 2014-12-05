@@ -133,8 +133,9 @@ module DMARC
     # @param [Resolv::DNS] resolver
     #   The resolver to use.
     #
-    # @return [Record]
-    #   The parsed DMARC record.
+    # @return [Record, nil]
+    #   The parsed DMARC record. If no DMARC record was found, `nil` will be
+    #   returned.
     #
     # @since 0.3.0
     #
@@ -142,11 +143,15 @@ module DMARC
     #
     def self.query(domain,resolver=Resolv::DNS.new)
       subdomain = "_dmarc.#{domain}"
-      dmarc     = resolver.getresource(
-        subdomain, Resolv::DNS::Resource::IN::TXT
-      ).strings.join
 
-      return parse(dmarc)
+      begin
+        dmarc     = resolver.getresource(
+          subdomain, Resolv::DNS::Resource::IN::TXT
+        ).strings.join
+
+        return parse(dmarc)
+      rescue Resolv::ResolvError
+      end
     end
 
   end
