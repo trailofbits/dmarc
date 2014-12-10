@@ -52,12 +52,12 @@ module DMARC
 
     # `rua` field.
     #
-    # @return [URI::MailTo]
+    # @return [Array<URI::MailTo>]
     attr_reader :rua
 
     # `rua` field.
     #
-    # @return [URI::MailTo]
+    # @return [Array<URI::MailTo>]
     attr_reader :ruf
 
     # `sp` field.
@@ -90,9 +90,9 @@ module DMARC
     #
     # @option attributes [Integer] :ri (86400)
     #
-    # @option attributes [URI::MailTo] :rua
+    # @option attributes [Array<URI::MailTo>] :rua
     #
-    # @option attributes [URI::MailTo] :ruf
+    # @option attributes [Array<URI::MailTo>] :ruf
     #
     # @option attributes [:none, :quarantine, :reject] :sp
     #

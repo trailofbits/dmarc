@@ -183,6 +183,8 @@ module DMARC
       rule(ri:  simple(:ri))  { {ri:  ri.to_i}  }
 
       rule(uri: simple(:uri)) { URI.parse(uri) }
+      rule(rua: sequence(:uris)) { {rua: Array(uris)} }
+      rule(ruf: sequence(:uris)) { {ruf: Array(uris)} }
 
     end
 

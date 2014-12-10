@@ -43,10 +43,10 @@ Parse a SPF record:
     # => 86400
 
     record.rua
-    # => #<URI::MailTo:0x000000034a1cc8 URL:mailto:d@rua.agari.com>
+    # => [#<URI::MailTo:0x000000034a1cc8 URL:mailto:d@rua.agari.com>]
 
     record.ruf
-    # => #<URI::MailTo:0x000000034a02b0 URL:mailto:d@ruf.agari.com>
+    # => [#<URI::MailTo:0x000000034a02b0 URL:mailto:d@ruf.agari.com>]
 
     record.sp
     # => :reject
@@ -54,7 +54,7 @@ Parse a SPF record:
 Query the SPF record for a domain:
 
     record = DMARC::Record.query('twitter.com')
-    # => #<DMARC::Record:0x0000000313bd90 @adkim=:r, @aspf=:r, @fo=["1"@79], @p=:reject, @pct=100, @rf=:afrf, @ri=86400, @rua=#<URI::MailTo:0x00000003124e38 URL:mailto:d@rua.agari.com>, @ruf=#<URI::MailTo:0x00000003132678 URL:mailto:d@ruf.agari.com>, @sp=:reject, @v=:DMARC1>
+    # => #<DMARC::Record:0x0000000313bd90 @adkim=:r, @aspf=:r, @fo=["1"@79], @p=:reject, @pct=100, @rf=:afrf, @ri=86400, @rua=[#<URI::MailTo:0x00000003124e38 URL:mailto:d@rua.agari.com>], @ruf=[#<URI::MailTo:0x00000003132678 URL:mailto:d@ruf.agari.com>], @sp=:reject, @v=:DMARC1>
 
 ## Requirements
 
