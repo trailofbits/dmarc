@@ -347,7 +347,7 @@ describe Parser do
     end
 
     it "should convert {uri: ...} to URI objects" do
-      expect(subject).to include(rua: URI("mailto:d@rua.agari.com"))
+      expect(subject).to include(rua: [URI("mailto:d@rua.agari.com")])
     end
   end
 
