@@ -1,3 +1,4 @@
+require 'dmarc/dmarc'
 require 'dmarc/parser'
 require 'dmarc/exceptions'
 
@@ -142,15 +143,8 @@ module DMARC
     # @api public
     #
     def self.query(domain,resolver=Resolv::DNS.new)
-      subdomain = "_dmarc.#{domain}"
-
-      begin
-        dmarc     = resolver.getresource(
-          subdomain, Resolv::DNS::Resource::IN::TXT
-        ).strings.join
-
-        return parse(dmarc)
-      rescue Resolv::ResolvError
+      if (dmarc = DMARC.query(domain,resolver))
+        parse(dmarc)
       end
     end
 
