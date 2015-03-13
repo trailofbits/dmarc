@@ -7,49 +7,10 @@ require 'resolv'
 module DMARC
   class Record
 
-    DEFAULTS = {
-      adkim: :r,
-      aspf:  :r,
-      fo:    ['0'],
-      pct:   100,
-      rf:    :afrf,
-      ri:    86400,
-    }.freeze
-
-    # `adkim` field.
-    #
-    # @return [:r, :s]
-    attr_reader :adkim
-
-    # `aspf` field.
-    #
-    # @return [:r, :s]
-    attr_reader :aspf
-
-    # `fo` field.
-    #
-    # @return [Array<'0', '1', 'd', 's'>]
-    attr_reader :fo
-
     # `p` field.
     # 
     # @return [:none, :quarantine, :reject]
     attr_reader :p
-
-    # `pct` field.
-    #
-    # @return [Integer]
-    attr_reader :pct
-
-    # `rf` field.
-    # 
-    # @return [:afrf, :iodef]
-    attr_reader :rf
-
-    # `ri` field.
-    #
-    # @return [Integer]
-    attr_reader :ri
 
     # `rua` field.
     #
@@ -100,11 +61,65 @@ module DMARC
     # @option attributes [:DMARC1] :v
     #
     def initialize(attributes={})
-      attributes = DEFAULTS.merge(attributes)
-
       @adkim, @aspf, @fo, @p, @pct, @rf, @ri, @rua, @ruf, @sp, @v = attributes.values_at(:adkim, :aspf, :fo, :p, :pct, :rf, :ri, :rua, :ruf, :sp, :v)
+    end
 
-      @sp ||= @p
+    def sp
+      @sp || @p
+    end
+
+    #
+    # `adkim=` field.
+    #
+    # @return [:r, :s]
+    #
+    def adkim
+      @adkim || :r
+    end
+
+    #
+    # `aspf` field.
+    #
+    # @return [:r, :s]
+    #
+    def aspf
+      @aspf || :r
+    end
+
+    #
+    # `fo` field.
+    #
+    # @return [Array<'0', '1', 'd', 's'>]
+    #
+    def fo
+      @fo || %w[0]
+    end
+
+    #
+    # `pct` field.
+    #
+    # @return [Integer]
+    #
+    def pct
+      @pct || 100
+    end
+
+    #
+    # `rf` field.
+    # 
+    # @return [:afrf, :iodef]
+    #
+    def rf
+      @rf || :afrf
+    end
+
+    #
+    # `ri` field.
+    #
+    # @return [Integer]
+    #
+    def ri
+      @ri || 86400
     end
 
     #
