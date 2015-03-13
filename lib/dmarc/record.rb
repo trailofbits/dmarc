@@ -148,5 +148,28 @@ module DMARC
       end
     end
 
+    #
+    # Converts the record back to a DMARC String.
+    #
+    # @return [String]
+    #
+    def to_s
+      tags = []
+
+      tags << "v=#{@v}" if @v
+      tags << "p=#{@p}" if @p
+      tags << "sp=#{@sp}" if @sp
+      tags << "rua=#{@rua.join(',')}" if @rua
+      tags << "ruf=#{@ruf.join(',')}" if @ruf
+      tags << "adkim=#{@adkim}" if @adkim
+      tags << "aspf=#{@aspf}" if @aspf
+      tags << "ri=#{@ri}" if @ri
+      tags << "fo=#{@fo.join(':')}" if @fo
+      tags << "rf=#{@rf}" if @rf
+      tags << "pct=#{@pct}" if @pct
+
+      return tags.join('; ')
+    end
+
   end
 end
