@@ -2,32 +2,6 @@ require 'spec_helper'
 require 'dmarc/record'
 
 describe Record do
-  context 'by default' do
-    it 'has a relaxed DKIM alignment' do
-      expect(subject.adkim).to eq(:r)
-    end
-
-    it 'has a relaxed SPF alignment' do
-      expect(subject.aspf).to eq(:r)
-    end
-
-    it 'has failure reporting options of "0"' do
-      expect(subject.fo).to eq(['0'])
-    end
-
-    it 'has an application percentage of 100' do
-      expect(subject.pct).to eq(100)
-    end
-
-    it 'has an afrf report format' do
-      expect(subject.rf).to eq(:afrf)
-    end
-
-    it 'has a report interval of 1 day' do
-      expect(subject.ri).to eq(86400)
-    end
-  end
-
   describe '#initialize' do
     let(:attributes) do
       {
@@ -47,6 +21,44 @@ describe Record do
 
     it 'gives "sp" the same value as "p" if undefined' do
       expect(subject.sp).to be :none
+    end
+  end
+
+  context 'with default values' do
+    describe "#adkim" do
+      it "should return :r" do
+        expect(subject.adkim).to be == :r
+      end
+    end
+
+    describe "#aspf" do
+      it "should return :r" do
+        expect(subject.aspf).to be == :r
+      end
+    end
+
+    describe "#fo" do
+      it "should return ['0']" do
+        expect(subject.fo).to be == ['0']
+      end
+    end
+
+    describe "#pct" do
+      it "should return 100" do
+        expect(subject.pct).to be == 100
+      end
+    end
+
+    describe "#rf" do
+      it "should return afrf" do
+        expect(subject.rf).to be == :afrf
+      end
+    end
+
+    describe "#ri" do
+      it "should return 86400" do
+        expect(subject.ri).to be == 86400
+      end
     end
   end
 
