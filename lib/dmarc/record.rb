@@ -129,8 +129,8 @@ module DMARC
     #
     def self.parse(rec)
       new(Parser.parse(rec))
-    rescue Parslet::ParseFailed
-      raise InvalidRecord
+    rescue Parslet::ParseFailed => error
+      raise(InvalidRecord.new(error.message,error.cause))
     end
 
     #

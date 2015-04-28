@@ -76,10 +76,9 @@ describe Record do
 
     context 'with an invalid record' do
       it 'raises an InvalidRecord error' do
-        expect { subject.parse('v=DMARC1; foo=bar') }.to raise_error do |error|
-          expect(error).to be_a InvalidRecord
-          expect(error.ascii_tree).to_not be_nil
-        end
+        expect {
+          subject.parse('v=DMARC1; foo=bar')
+        }.to raise_error(InvalidRecord)
       end
     end
   end
