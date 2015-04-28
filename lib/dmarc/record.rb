@@ -123,12 +123,23 @@ module DMARC
     end
 
     #
+    # Parses a DMARC record.
+    #
+    # @param [String] record
+    #   The raw DMARC record.
+    #
+    # @return [Record]
+    #   The parsed DMARC record.
+    #
+    # @raise [InvalidRecord]
+    #   The DMARC record could not be parsed.
+    #
     # @since 0.3.0
     #
     # @api public
     #
-    def self.parse(rec)
-      new(Parser.parse(rec))
+    def self.parse(record)
+      new(Parser.parse(record))
     rescue Parslet::ParseFailed => error
       raise(InvalidRecord.new(error.message,error.cause))
     end
@@ -152,6 +163,9 @@ module DMARC
     # @return [Record, nil]
     #   The parsed DMARC record. If no DMARC record was found, `nil` will be
     #   returned.
+    #
+    # @raise [InvalidRecord]
+    #   The DMARC record could not be parsed.
     #
     # @since 0.3.0
     #
