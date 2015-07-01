@@ -77,7 +77,7 @@ describe Record do
     context 'with an invalid record' do
       it 'raises an InvalidRecord error' do
         expect {
-          subject.parse('v=DMARC1; foo=bar')
+          subject.parse('v=XXXXXXXXXX')
         }.to raise_error(InvalidRecord)
       end
     end
