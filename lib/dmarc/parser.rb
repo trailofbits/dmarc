@@ -8,8 +8,7 @@ module DMARC
     root :dmarc_record
 
     rule(:dmarc_record) do
-      dmarc_version.repeat(1,1) >> dmarc_sep >>
-      dmarc_request.maybe >>
+      dmarc_version.repeat(1,1) >>
       (dmarc_sep >> dmarc_tag).repeat >>
       dmarc_sep.maybe
     end
@@ -22,15 +21,8 @@ module DMARC
       str('DMARC1').as(:v)
     end
 
-    rule(:dmarc_request) do
-      str('p') >> wsp? >> str('=') >> wsp? >> (
-        str('none') |
-        str('quarantine') |
-        str('reject')
-      ).as(:p)
-    end
-
     rule(:dmarc_tag) do
+      dmarc_request   |
       dmarc_srequest  |
       dmarc_auri      |
       dmarc_furi      |
@@ -48,6 +40,10 @@ module DMARC
         str(tag) >> wsp? >> str('=') >> wsp? >>
         (instance_eval(&block).as(tag.to_sym) | unknown_value)
       end
+    end
+
+    tag_rule(:request,'p') do
+      str('none') | str('quarantine') | str('reject')
     end
 
     tag_rule(:srequest,'sp') do

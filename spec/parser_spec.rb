@@ -55,10 +55,29 @@ describe Parser do
         ])
       end
 
+      it 'ignores order of tags' do
+        record = 'v=DMARC1; rua=mailto:foo@example.com; p=none'
+
+        expect(subject.parse(record)).to eq([
+          {v: 'DMARC1'},
+          {rua: {uri: 'mailto:foo@example.com'}},
+          {p: 'none'}
+        ])
+      end
+
       it 'ignores spacing' do
         record1 = 'v=DMARC1;p=none;sp=reject'
         record2 = 'v = DMARC1 ; p = none ; sp = reject'
         expect(subject.parse record1).to eq(subject.parse record2)
+      end
+
+      it 'ignores trailing separators' do
+        record = 'v=DMARC1; p=none; '
+
+        expect(subject.parse(record)).to eq([
+          {v: 'DMARC1'},
+          {p: 'none'}
+        ])
       end
 
       it "ignores unknown tags" do
