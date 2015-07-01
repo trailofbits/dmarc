@@ -3,6 +3,11 @@ require 'parslet'
 require 'uri'
 
 module DMARC
+  #
+  # DMARC parser.
+  #
+  # @see https://tools.ietf.org/html/rfc7489#section-6.4
+  #
   class Parser < Parslet::Parser
 
     root :dmarc_record
