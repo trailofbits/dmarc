@@ -78,5 +78,5 @@ To test the parser against the Alexa Top 500:
 
 See the {file:LICENSE.txt} file.
 
-[DMARC]: http://tools.ietf.org/html/draft-kucherawy-dmarc-base-02
+[DMARC]: https://tools.ietf.org/html/rfc7489
 [parslet]: http://kschiess.github.io/parslet/
