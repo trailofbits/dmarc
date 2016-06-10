@@ -11,7 +11,7 @@ describe DMARC do
       it "should query and parse the DMARC record" do
         record = subject.query(domain)
 
-        expect(record).to be == 'v=DMARC1; p=quarantine; rua=mailto:mailauth-reports@google.com'
+        expect(record).to be == 'v=DMARC1; p=reject; rua=mailto:mailauth-reports@google.com'
       end
     end
 
