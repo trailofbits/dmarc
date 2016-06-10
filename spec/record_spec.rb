@@ -104,6 +104,37 @@ describe Record do
     end
   end
 
+  shared_examples "question mark method" do |field,value|
+    describe "#{field}?" do
+      context "when #{field} is set" do
+        subject { described_class.new(field => value) }
+
+        it { expect(subject.send(:"#{field}?")).to be(true) }
+      end
+
+      context "when #{field} is omitted" do
+        it { expect(subject.send(:"#{field}?")).to be(false) }
+      end
+    end
+  end
+
+  include_examples "question mark method", :adkim, :r
+  include_examples "question mark method", :aspf, :r
+  include_examples "question mark method", :fo, %w[0 1 d]
+  include_examples "question mark method", :p, :reject
+  include_examples "question mark method", :pct, 100
+  include_examples "question mark method", :rf, :afrf
+  include_examples "question mark method", :ri, 86400
+  include_examples "question mark method", :rua, [URI("mailto:bob@example.com")]
+  include_examples "question mark method", :ruf, [URI("mailto:bob@example.com")]
+  include_examples "question mark method", :sp, :reject
+  include_examples "question mark method", :v, :DMARC1
+
+  describe "#sp?" do
+    context "when sp is set" do
+    end
+  end
+
   describe "#to_h" do
     let(:v) { :DMARC1 }
     let(:p) { :reject }

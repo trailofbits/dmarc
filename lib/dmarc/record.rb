@@ -65,6 +65,17 @@ module DMARC
     end
 
     #
+    # Determines if the `sp=` field was specified?
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def sp?
+      !@sp.nil?
+    end
+
+    #
     # The `sp=` field.
     #
     # @return [:none, :quarantine, :reject]
@@ -72,6 +83,17 @@ module DMARC
     #
     def sp
       @sp || @p
+    end
+
+    #
+    # Determines whether the `adkim=` field was specified.
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def adkim?
+      !@adkim.nil?
     end
 
     #
@@ -85,6 +107,17 @@ module DMARC
     end
 
     #
+    # Determines whether the `aspf=` field was specified.
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def aspf?
+      !@aspf.nil?
+    end
+
+    #
     # `aspf` field.
     #
     # @return [:r, :s]
@@ -92,6 +125,17 @@ module DMARC
     #
     def aspf
       @aspf || :r
+    end
+
+    #
+    # Determines whether the `fo=` field was specified.
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def fo?
+      !@fo.nil?
     end
 
     #
@@ -105,6 +149,28 @@ module DMARC
     end
 
     #
+    # Determines if the `p=` field was specified?
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def p?
+      !@p.nil?
+    end
+
+    #
+    # Determines whether the `pct=` field was specified.
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def pct?
+      !@pct.nil?
+    end
+
+    #
     # `pct` field.
     #
     # @return [Integer]
@@ -112,6 +178,17 @@ module DMARC
     #
     def pct
       @pct || 100
+    end
+
+    #
+    # Determines whether the `rf=` field was specified.
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def rf?
+      !@rf.nil?
     end
 
     #
@@ -125,6 +202,17 @@ module DMARC
     end
 
     #
+    # Determines whether the `ri=` field was specified.
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def ri?
+      !@ri.nil?
+    end
+
+    #
     # `ri` field.
     #
     # @return [Integer]
@@ -132,6 +220,39 @@ module DMARC
     #
     def ri
       @ri || 86400
+    end
+
+    #
+    # Determines if the `rua=` field was specified?
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def rua?
+      !@rua.nil?
+    end
+
+    #
+    # Determines if the `ruf=` field was specified?
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def ruf?
+      !@ruf.nil?
+    end
+
+    #
+    # Determines if the `v=` field was specified?
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def v?
+      !@v.nil?
     end
 
     #
