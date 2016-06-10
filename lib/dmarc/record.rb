@@ -61,7 +61,17 @@ module DMARC
     # @option attributes [:DMARC1] :v
     #
     def initialize(attributes={})
-      @adkim, @aspf, @fo, @p, @pct, @rf, @ri, @rua, @ruf, @sp, @v = attributes.values_at(:adkim, :aspf, :fo, :p, :pct, :rf, :ri, :rua, :ruf, :sp, :v)
+      @adkim = attributes[:adkim]
+      @aspf  = attributes[:aspf]
+      @fo    = attributes[:fo]
+      @p     = attributes[:p]
+      @pct   = attributes[:pct]
+      @rf    = attributes[:rf]
+      @ri    = attributes[:ri]
+      @rua   = attributes[:rua]
+      @ruf   = attributes[:ruf]
+      @sp    = attributes[:sp]
+      @v     = attributes[:v]
     end
 
     #
