@@ -25,6 +25,8 @@ describe Record do
   end
 
   context 'with default values' do
+    subject { described_class.new(v: :DMARC1) }
+
     describe "#adkim" do
       it "should return :r" do
         expect(subject.adkim).to be == :r
@@ -101,6 +103,72 @@ describe Record do
       it "should raise a DNS error" do
         expect(subject.query('foobar.com')).to be_nil
       end
+    end
+  end
+
+  shared_examples "question mark method" do |field,value|
+    describe "#{field}?" do
+      context "when #{field} is set" do
+        subject do
+          described_class.new(v: :DMARC1, field => value)
+        end
+
+        it { expect(subject.send(:"#{field}?")).to be(true) }
+      end
+
+      context "when #{field} is omitted" do
+        subject { described_class.new(v: :DMARC1) }
+
+        it { expect(subject.send(:"#{field}?")).to be(false) }
+      end
+    end
+  end
+
+  include_examples "question mark method", :adkim, :r
+  include_examples "question mark method", :aspf, :r
+  include_examples "question mark method", :fo, %w[0 1 d]
+  include_examples "question mark method", :p, :reject
+  include_examples "question mark method", :pct, 100
+  include_examples "question mark method", :rf, :afrf
+  include_examples "question mark method", :ri, 86400
+  include_examples "question mark method", :rua, [URI("mailto:bob@example.com")]
+  include_examples "question mark method", :ruf, [URI("mailto:bob@example.com")]
+  include_examples "question mark method", :sp, :reject
+
+  describe "#sp?" do
+    context "when sp is set" do
+    end
+  end
+
+  describe "#to_h" do
+    let(:v) { :DMARC1 }
+    let(:p) { :reject }
+    let(:rua) { [URI.parse('mailto:d@rua.agari.com')] }
+    let(:ruf) { [URI.parse('mailto:d@rua.agari.com')] }
+    let(:fo)  { %w[0 1 d] }
+
+    subject do
+      described_class.new(
+        v: v,
+        p: p,
+        rua: rua,
+        ruf: ruf,
+        fo: fo
+      )
+    end
+
+    it "should return a Hash" do
+      expect(subject.to_h).to be_kind_of(Hash)
+    end
+
+    it "should only include fields that have values" do
+      expect(subject.to_h).to be == {
+        v: v,
+        p: p,
+        rua: rua,
+        ruf: ruf,
+        fo: fo
+      }
     end
   end
 

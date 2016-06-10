@@ -61,7 +61,28 @@ module DMARC
     # @option attributes [:DMARC1] :v
     #
     def initialize(attributes={})
-      @adkim, @aspf, @fo, @p, @pct, @rf, @ri, @rua, @ruf, @sp, @v = attributes.values_at(:adkim, :aspf, :fo, :p, :pct, :rf, :ri, :rua, :ruf, :sp, :v)
+      @v     = attributes.fetch(:v)
+      @adkim = attributes[:adkim]
+      @aspf  = attributes[:aspf]
+      @fo    = attributes[:fo]
+      @p     = attributes[:p]
+      @pct   = attributes[:pct]
+      @rf    = attributes[:rf]
+      @ri    = attributes[:ri]
+      @rua   = attributes[:rua]
+      @ruf   = attributes[:ruf]
+      @sp    = attributes[:sp]
+    end
+
+    #
+    # Determines if the `sp=` field was specified?
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def sp?
+      !@sp.nil?
     end
 
     #
@@ -75,6 +96,17 @@ module DMARC
     end
 
     #
+    # Determines whether the `adkim=` field was specified.
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def adkim?
+      !@adkim.nil?
+    end
+
+    #
     # `adkim=` field.
     #
     # @return [:r, :s]
@@ -82,6 +114,17 @@ module DMARC
     #
     def adkim
       @adkim || :r
+    end
+
+    #
+    # Determines whether the `aspf=` field was specified.
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def aspf?
+      !@aspf.nil?
     end
 
     #
@@ -95,6 +138,17 @@ module DMARC
     end
 
     #
+    # Determines whether the `fo=` field was specified.
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def fo?
+      !@fo.nil?
+    end
+
+    #
     # `fo` field.
     #
     # @return [Array<'0', '1', 'd', 's'>]
@@ -102,6 +156,28 @@ module DMARC
     #
     def fo
       @fo || %w[0]
+    end
+
+    #
+    # Determines if the `p=` field was specified?
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def p?
+      !@p.nil?
+    end
+
+    #
+    # Determines whether the `pct=` field was specified.
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def pct?
+      !@pct.nil?
     end
 
     #
@@ -115,6 +191,17 @@ module DMARC
     end
 
     #
+    # Determines whether the `rf=` field was specified.
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def rf?
+      !@rf.nil?
+    end
+
+    #
     # `rf` field.
     # 
     # @return [:afrf, :iodef]
@@ -125,6 +212,17 @@ module DMARC
     end
 
     #
+    # Determines whether the `ri=` field was specified.
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def ri?
+      !@ri.nil?
+    end
+
+    #
     # `ri` field.
     #
     # @return [Integer]
@@ -132,6 +230,28 @@ module DMARC
     #
     def ri
       @ri || 86400
+    end
+
+    #
+    # Determines if the `rua=` field was specified?
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def rua?
+      !@rua.nil?
+    end
+
+    #
+    # Determines if the `ruf=` field was specified?
+    #
+    # @return [Boolean]
+    #
+    # @since 0.4.0
+    #
+    def ruf?
+      !@ruf.nil?
     end
 
     #
@@ -190,6 +310,31 @@ module DMARC
     end
 
     #
+    # Converts the record to a Hash.
+    #
+    # @return [Hash{Symbol => Object}]
+    #
+    # @since 0.4.0
+    #
+    def to_h
+      hash = {}
+
+      hash[:v]     = @v     if @v
+      hash[:p]     = @p     if @p
+      hash[:sp]    = @sp    if @sp
+      hash[:rua]   = @rua   if @rua
+      hash[:ruf]   = @ruf   if @ruf
+      hash[:adkim] = @adkim if @adkim
+      hash[:aspf]  = @aspf  if @aspf
+      hash[:ri]    = @ri    if @ri
+      hash[:fo]    = @fo    if @fo
+      hash[:rf]    = @rf    if @rf
+      hash[:pct]   = @pct   if @pct
+
+      return hash
+    end
+
+    #
     # Converts the record back to a DMARC String.
     #
     # @return [String]
@@ -197,17 +342,17 @@ module DMARC
     def to_s
       tags = []
 
-      tags << "v=#{@v}" if @v
-      tags << "p=#{@p}" if @p
-      tags << "sp=#{@sp}" if @sp
+      tags << "v=#{@v}"               if @v
+      tags << "p=#{@p}"               if @p
+      tags << "sp=#{@sp}"             if @sp
       tags << "rua=#{@rua.join(',')}" if @rua
       tags << "ruf=#{@ruf.join(',')}" if @ruf
-      tags << "adkim=#{@adkim}" if @adkim
-      tags << "aspf=#{@aspf}" if @aspf
-      tags << "ri=#{@ri}" if @ri
-      tags << "fo=#{@fo.join(':')}" if @fo
-      tags << "rf=#{@rf}" if @rf
-      tags << "pct=#{@pct}" if @pct
+      tags << "adkim=#{@adkim}"       if @adkim
+      tags << "aspf=#{@aspf}"         if @aspf
+      tags << "ri=#{@ri}"             if @ri
+      tags << "fo=#{@fo.join(':')}"   if @fo
+      tags << "rf=#{@rf}"             if @rf
+      tags << "pct=#{@pct}"           if @pct
 
       return tags.join('; ')
     end
