@@ -61,6 +61,7 @@ module DMARC
     # @option attributes [:DMARC1] :v
     #
     def initialize(attributes={})
+      @v     = attributes.fetch(:v)
       @adkim = attributes[:adkim]
       @aspf  = attributes[:aspf]
       @fo    = attributes[:fo]
@@ -71,7 +72,6 @@ module DMARC
       @rua   = attributes[:rua]
       @ruf   = attributes[:ruf]
       @sp    = attributes[:sp]
-      @v     = attributes[:v]
     end
 
     #
@@ -252,17 +252,6 @@ module DMARC
     #
     def ruf?
       !@ruf.nil?
-    end
-
-    #
-    # Determines if the `v=` field was specified?
-    #
-    # @return [Boolean]
-    #
-    # @since 0.4.0
-    #
-    def v?
-      !@v.nil?
     end
 
     #

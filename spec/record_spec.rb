@@ -25,6 +25,8 @@ describe Record do
   end
 
   context 'with default values' do
+    subject { described_class.new(v: :DMARC1) }
+
     describe "#adkim" do
       it "should return :r" do
         expect(subject.adkim).to be == :r
@@ -107,12 +109,16 @@ describe Record do
   shared_examples "question mark method" do |field,value|
     describe "#{field}?" do
       context "when #{field} is set" do
-        subject { described_class.new(field => value) }
+        subject do
+          described_class.new(v: :DMARC1, field => value)
+        end
 
         it { expect(subject.send(:"#{field}?")).to be(true) }
       end
 
       context "when #{field} is omitted" do
+        subject { described_class.new(v: :DMARC1) }
+
         it { expect(subject.send(:"#{field}?")).to be(false) }
       end
     end
@@ -128,7 +134,6 @@ describe Record do
   include_examples "question mark method", :rua, [URI("mailto:bob@example.com")]
   include_examples "question mark method", :ruf, [URI("mailto:bob@example.com")]
   include_examples "question mark method", :sp, :reject
-  include_examples "question mark method", :v, :DMARC1
 
   describe "#sp?" do
     context "when sp is set" do
