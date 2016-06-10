@@ -190,6 +190,31 @@ module DMARC
     end
 
     #
+    # Converts the record to a Hash.
+    #
+    # @return [Hash{Symbol => Object}]
+    #
+    # @since 0.4.0
+    #
+    def to_h
+      hash = {}
+
+      hash[:v]     = @v     if @v
+      hash[:p]     = @p     if @p
+      hash[:sp]    = @sp    if @sp
+      hash[:rua]   = @rua   if @rua
+      hash[:ruf]   = @ruf   if @ruf
+      hash[:adkim] = @adkim if @adkim
+      hash[:aspf]  = @aspf  if @aspf
+      hash[:ri]    = @ri    if @ri
+      hash[:fo]    = @fo    if @fo
+      hash[:rf]    = @rf    if @rf
+      hash[:pct]   = @pct   if @pct
+
+      return hash
+    end
+
+    #
     # Converts the record back to a DMARC String.
     #
     # @return [String]

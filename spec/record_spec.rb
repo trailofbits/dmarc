@@ -104,6 +104,38 @@ describe Record do
     end
   end
 
+  describe "#to_h" do
+    let(:v) { :DMARC1 }
+    let(:p) { :reject }
+    let(:rua) { [URI.parse('mailto:d@rua.agari.com')] }
+    let(:ruf) { [URI.parse('mailto:d@rua.agari.com')] }
+    let(:fo)  { %w[0 1 d] }
+
+    subject do
+      described_class.new(
+        v: v,
+        p: p,
+        rua: rua,
+        ruf: ruf,
+        fo: fo
+      )
+    end
+
+    it "should return a Hash" do
+      expect(subject.to_h).to be_kind_of(Hash)
+    end
+
+    it "should only include fields that have values" do
+      expect(subject.to_h).to be == {
+        v: v,
+        p: p,
+        rua: rua,
+        ruf: ruf,
+        fo: fo
+      }
+    end
+  end
+
   describe "#to_s" do
     let(:v) { :DMARC1 }
     let(:p) { :reject }
