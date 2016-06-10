@@ -1,3 +1,17 @@
+### 0.4.0 / 2016-07-10
+
+* Added {DMARC::Record#to_h}.
+* Added {DMARC::Record#adkim?}.
+* Added {DMARC::Record#aspf?}.
+* Added {DMARC::Record#fo?}.
+* Added {DMARC::Record#p?}.
+* Added {DMARC::Record#pct?}.
+* Added {DMARC::Record#rf?}.
+* Added {DMARC::Record#ri?}.
+* Added {DMARC::Record#rua?}.
+* Added {DMARC::Record#ruf?}.
+* Added {DMARC::Record#sp?}.
+
 ### 0.3.0 / 2015-07-01
 
 * Added {DMARC::Record.query}.
