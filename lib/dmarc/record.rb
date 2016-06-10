@@ -64,6 +64,11 @@ module DMARC
       @adkim, @aspf, @fo, @p, @pct, @rf, @ri, @rua, @ruf, @sp, @v = attributes.values_at(:adkim, :aspf, :fo, :p, :pct, :rf, :ri, :rua, :ruf, :sp, :v)
     end
 
+    #
+    # The `sp=` field.
+    #
+    # @return [:none, :quarantine, :reject]
+    #
     def sp
       @sp || @p
     end
