@@ -68,6 +68,7 @@ module DMARC
     # The `sp=` field.
     #
     # @return [:none, :quarantine, :reject]
+    #   The value of the `sp=` field, or that of {#p} if the field was omitted.
     #
     def sp
       @sp || @p
@@ -77,6 +78,7 @@ module DMARC
     # `adkim=` field.
     #
     # @return [:r, :s]
+    #   The value of the `adkim=` field, or `:r` if the field was omitted.
     #
     def adkim
       @adkim || :r
@@ -86,6 +88,7 @@ module DMARC
     # `aspf` field.
     #
     # @return [:r, :s]
+    #   The value of the `aspf=` field, or `:r` if the field was omitted.
     #
     def aspf
       @aspf || :r
@@ -95,6 +98,7 @@ module DMARC
     # `fo` field.
     #
     # @return [Array<'0', '1', 'd', 's'>]
+    #   The value of the `fo=` field, or `["0"]` if the field was omitted.
     #
     def fo
       @fo || %w[0]
@@ -104,6 +108,7 @@ module DMARC
     # `pct` field.
     #
     # @return [Integer]
+    #   The value of the `pct=` field, or `100` if the field was omitted.
     #
     def pct
       @pct || 100
@@ -113,6 +118,7 @@ module DMARC
     # `rf` field.
     # 
     # @return [:afrf, :iodef]
+    #   The value of the `rf=` field, or `:afrf` if the field was omitted.
     #
     def rf
       @rf || :afrf
@@ -122,6 +128,7 @@ module DMARC
     # `ri` field.
     #
     # @return [Integer]
+    #   The value of the `ri=` field, or `86400` if the field was omitted.
     #
     def ri
       @ri || 86400
