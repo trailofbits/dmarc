@@ -4,6 +4,8 @@ gemspec
 
 group :development do
   gem 'rake'
+  gem 'rubygems-tasks', '~> 0.2'
+
   gem 'nokogiri'
   gem 'rspec', '~> 3.0'
 
