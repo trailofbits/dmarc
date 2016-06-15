@@ -12,7 +12,7 @@ parser for DMARC records.
 
 ## Example
 
-Parse a SPF record:
+Parse a DMARC record:
 
     require 'dmarc'
 
@@ -51,7 +51,7 @@ Parse a SPF record:
     record.sp
     # => :reject
 
-Query the SPF record for a domain:
+Query the DMARC record for a domain:
 
     record = DMARC::Record.query('twitter.com')
     # => #<DMARC::Record:0x0055ede6b808b0 @v=:DMARC1, @adkim=nil, @aspf=nil, @fo=["1"@79], @p=:reject, @pct=nil, @rf=nil, @ri=nil, @rua=[#<DMARC::Uri:0x0055ede6ba1c40 @uri=#<URI::MailTo mailto:d@rua.agari.com>, @size=nil, @unit=nil>], @ruf=[#<DMARC::Uri:0x0055ede6b8b760 @uri=#<URI::MailTo mailto:d@ruf.agari.com>, @size=nil, @unit=nil>], @sp=nil>
