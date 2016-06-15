@@ -185,17 +185,17 @@ module DMARC
       rule(ri:  simple(:ri))  { {ri:  ri.to_i}  }
 
       rule(uri: simple(:uri), size: simple(:size), unit: simple(:unit)) do
-        uri  = URI.parse(uri)
-        size = size.to_i
-        unit = unit.to_sym
-
-        Uri.new(uri,size,unit)
+        Uri.new(
+          URI.parse(uri),
+          size.to_i,
+          unit.to_sym
+        )
       end
       rule(uri: simple(:uri), size: simple(:size)) do
-        uri  = URI.parse(uri)
-        size = size.to_i
-
-        Uri.new(uri,size)
+        Uri.new(
+          URI.parse(uri),
+          size.to_i
+        )
       end
       rule(uri: simple(:uri)) { Uri.new(URI.parse(uri)) }
       rule(rua: subtree(:uris)) { {rua: Array(uris)} }
