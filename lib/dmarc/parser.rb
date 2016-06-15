@@ -1,5 +1,6 @@
-require 'parslet'
+require 'dmarc/uri'
 
+require 'parslet'
 require 'uri'
 
 module DMARC
@@ -183,7 +184,20 @@ module DMARC
       rule(pct: simple(:pct)) { {pct: pct.to_i} }
       rule(ri:  simple(:ri))  { {ri:  ri.to_i}  }
 
-      rule(uri: simple(:uri)) { URI.parse(uri) }
+      rule(uri: simple(:uri), size: simple(:size), unit: simple(:unit)) do
+        uri  = URI.parse(uri)
+        size = size.to_i
+        unit = unit.to_sym
+
+        Uri.new(uri,size,unit)
+      end
+      rule(uri: simple(:uri), size: simple(:size)) do
+        uri  = URI.parse(uri)
+        size = size.to_i
+
+        Uri.new(uri,size)
+      end
+      rule(uri: simple(:uri)) { Uri.new(URI.parse(uri)) }
       rule(rua: subtree(:uris)) { {rua: Array(uris)} }
       rule(ruf: subtree(:uris)) { {ruf: Array(uris)} }
 
