@@ -1,8 +1,8 @@
-### 0.5.0 / 2016-07-16
+### 0.5.0 / 2016-06-16
 
 * Added {DMARC::Uri} to represent `mailto:dmarc@example.com!10m` URIs.
 
-### 0.4.0 / 2016-07-10
+### 0.4.0 / 2016-06-10
 
 * Added {DMARC::Record#to_h}.
 * Added {DMARC::Record#adkim?}.
