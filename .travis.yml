@@ -13,7 +13,8 @@ rvm:
   - jruby
 matrix:
   allow_failures:
-  - rvm: jruby
+    - rvm: ruby-head
+    - rvm: jruby
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
