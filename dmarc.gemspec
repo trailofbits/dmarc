@@ -20,5 +20,5 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'parslet', '~> 1.5'
 
-  gem.add_development_dependency 'bundler', '~> 1.0'
+  gem.add_development_dependency 'bundler'
 end
