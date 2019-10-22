@@ -10,27 +10,27 @@ module DMARC
     # `p` field.
     # 
     # @return [:none, :quarantine, :reject]
-    attr_writer :p
+    attr_accessor :p
 
     # `rua` field.
     #
     # @return [Array<Uri>]
-    attr_writer :rua
+    attr_accessor :rua
 
     # `rua` field.
     #
     # @return [Array<Uri>]
-    attr_writer :ruf
+    attr_accessor :ruf
 
     # `sp` field.
     # 
     # @return [:none, :quarantine, :reject]
-    attr_writer :sp
+    attr_accessor :sp
 
     # `v` field.
     #
     # @return [:DMARC1]
-    attr_writer :v
+    attr_accessor :v
 
     #
     # Initializes the record.
