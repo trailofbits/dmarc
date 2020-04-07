@@ -1,6 +1,7 @@
 require 'resolv'
 
 module DMARC
+  
   #
   # Queries a domain for the DMARC record.
   #
@@ -27,4 +28,17 @@ module DMARC
     rescue Resolv::ResolvError
     end
   end
+
+  # Check for External Domain Reporter
+  def self.query_report(domain, reporter, resolver=Resolv::DNS.new)
+    host = "#{reporter}._report._dmarc.#{domain}"
+
+    begin
+      return resolver.getresource(
+        host, Resolv::DNS::Resource::IN::TXT
+      ).strings.join
+    rescue Resolv::ResolvError
+    end
+  end
+
 end

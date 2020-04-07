@@ -8,7 +8,7 @@ module DMARC
   class Record
 
     # `p` field.
-    # 
+    #
     # @return [:none, :quarantine, :reject]
     attr_reader :p
 
@@ -23,7 +23,7 @@ module DMARC
     attr_reader :ruf
 
     # `sp` field.
-    # 
+    #
     # @return [:none, :quarantine, :reject]
     attr_reader :sp
 
@@ -203,7 +203,7 @@ module DMARC
 
     #
     # `rf` field.
-    # 
+    #
     # @return [:afrf, :iodef]
     #   The value of the `rf=` field, or `:afrf` if the field was omitted.
     #
@@ -308,6 +308,21 @@ module DMARC
         parse(dmarc)
       end
     end
+
+
+
+    # Check for External Domain Reporter
+    def self.query_report(domain, reporter, resolver=Resolv::DNS.new)
+      host = "#{reporter}._report._dmarc.#{domain}"
+
+      begin
+        return resolver.getresource(
+          host, Resolv::DNS::Resource::IN::TXT
+        ).strings.join
+      rescue Resolv::ResolvError
+      end
+    end
+
 
     #
     # Converts the record to a Hash.
