@@ -177,6 +177,7 @@ describe Record do
     let(:p) { :reject }
     let(:rua) { [URI.parse('mailto:d@rua.agari.com')] }
     let(:ruf) { [URI.parse('mailto:d@rua.agari.com')] }
+    let(:rf)  { %w[afrf iodef] }
     let(:fo)  { %w[0 1 d] }
 
     subject do
@@ -185,12 +186,13 @@ describe Record do
         p: p,
         rua: rua,
         ruf: ruf,
+        rf: rf,
         fo: fo
       )
     end
 
     it "should convert the record to a String" do
-      expect(subject.to_s).to be == "v=#{v}; p=#{p}; rua=#{rua[0]}; ruf=#{ruf[0]}; fo=#{fo[0]}:#{fo[1]}:#{fo[2]}"
+      expect(subject.to_s).to be == "v=#{v}; p=#{p}; rua=#{rua[0]}; ruf=#{ruf[0]}; rf=#{rf[0]},#{rf[1]}; fo=#{fo[0]}:#{fo[1]}:#{fo[2]}"      
     end
   end
 end

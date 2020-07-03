@@ -350,8 +350,8 @@ module DMARC
       tags << "adkim=#{@adkim}"       if @adkim
       tags << "aspf=#{@aspf}"         if @aspf
       tags << "ri=#{@ri}"             if @ri
+      tags << "rf=#{@rf.join(',')}"   if @rf
       tags << "fo=#{@fo.join(':')}"   if @fo
-      tags << "rf=#{@rf}"             if @rf
       tags << "pct=#{@pct}"           if @pct
 
       return tags.join('; ')
