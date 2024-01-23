@@ -16,7 +16,8 @@ module DMARC
     rule(:dmarc_record) do
       dmarc_version.repeat(1,1) >>
       (dmarc_sep >> dmarc_tag).repeat >>
-      dmarc_sep.maybe
+      dmarc_sep.maybe >>
+      wsp?.maybe
     end
 
     rule(:dmarc_sep) { wsp? >> str(';') >> wsp? }

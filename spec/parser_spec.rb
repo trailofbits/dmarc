@@ -80,6 +80,15 @@ describe Parser do
         ])
       end
 
+      it 'ignores trailing spacing without final separator' do
+        record = 'v=DMARC1; p=none '
+
+        expect(subject.parse(record)).to eq([
+          {v: 'DMARC1'},
+          {p: 'none'}
+        ])
+      end
+
       it "ignores unknown tags" do
         record = 'v=DMARC1;p=none;foo=xxx;sp=reject;bar=xxx;adkim=r;aspf=r'
         expect(subject.parse(record)).to eq([
