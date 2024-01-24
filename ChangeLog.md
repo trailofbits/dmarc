@@ -1,3 +1,7 @@
+### 0.6.0 / 2024-01-24
+
+* {DMARC::Record.parse} now allows trailing whitespace, per DMARC spec.
+
 ### 0.5.0 / 2016-06-16
 
 * Added {DMARC::Uri} to represent `mailto:dmarc@example.com!10m` URIs.
