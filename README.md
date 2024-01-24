@@ -1,12 +1,11 @@
 # DMARC
 
-[![Code Climate](https://codeclimate.com/github/trailofbits/dmarc.png)](https://codeclimate.com/github/trailofbits/dmarc) [![Build Status](https://travis-ci.org/trailofbits/dmarc.svg)](https://travis-ci.org/trailofbits/dmarc)
+[![CI](https://github.com/trailofbits/dmarc/actions/workflows/ci.yml/badge.svg)](https://github.com/trailofbits/dmarc/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/dmarc.svg)](http://badge.fury.io/rb/dmarc)
 [![YARD Docs](http://img.shields.io/badge/yard-docs-blue.svg)](http://rubydoc.info/gems/dmarc)
-[![Test Coverage](https://codeclimate.com/github/trailofbits/dmarc/badges/coverage.svg)](https://codeclimate.com/github/trailofbits/dmarc)
 
 [DMARC] is a technical specification intended to solve a couple of long-standing
-email authentication problems. DMARC policies are described in DMARC "records," 
+email authentication problems. DMARC policies are described in DMARC "records,"
 which are stored as DNS TXT records on a subdomain. This library contains a
 parser for DMARC records.
 
