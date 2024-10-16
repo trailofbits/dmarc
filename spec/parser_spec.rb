@@ -119,6 +119,10 @@ describe Parser do
       it 'ignores spacing' do
         expect(subject.parse 'v = DMARC1').to eq(subject.parse 'v=DMARC1')
       end
+
+      it 'ignores tag case' do
+        expect(subject.parse('V=DMARC1')).to eq(v: 'DMARC1')
+      end
     end
 
     describe 'dmarc_request' do

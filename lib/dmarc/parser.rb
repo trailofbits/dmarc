@@ -23,7 +23,7 @@ module DMARC
     rule(:dmarc_sep) { wsp? >> str(';') >> wsp? }
 
     rule(:dmarc_version) do
-      str('v') >> wsp? >>
+      match('[vV]') >> wsp? >>
       str('=') >> wsp? >>
       str('DMARC1').as(:v)
     end
